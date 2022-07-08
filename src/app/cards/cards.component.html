@@ -1,0 +1,12 @@
+<div>
+    <div *ngIf="drawnCard != null">
+      <div class="card" [ngStyle]="{color:drawnCard.color}">
+        <span>{{drawnCard.name}}</span
+        ><br />
+        <span innerHTML="{{drawnCard.suit}}"></span>
+      </div>
+    </div>
+    <button (click)="draw()">
+      draw
+    </button>
+  </div>
