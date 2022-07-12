@@ -275,35 +275,4 @@ export class AppComponent {
     }
   }
 
-  drawDealerCards(total: number) {
-    if (this.dealerHand.total < 17) {
-      var card = this.cardsService.draw();
-      this.dealerHand.cards.push(card);
-      this.dealerHand.calculate();
-      if (card.name === "A" && this.dealerHand.total > 21)
-        this.dealerHand.total -= 10;
-      else {
-        var aces = this.dealerHand.cards.filter(x => x.name === "A");
-        if (aces && aces.length > 0) {
-          if (this.dealerHand.total > 21 && this.isSubtractingTen) {
-            this.dealerHand.total -= 10;
-            this.isSubtractingTen = false;
-          }
-        }
-      }
-      setTimeout(() => {
-        this.drawDealerCards(total);
-      }, 500);
-    }
-    else {
-      setTimeout(() => {
-        if ((this.dealerHand.total > total && this.dealerHand.total <= 21) || total > 21)
-          alert("Dealer wins!");
-        else if (this.dealerHand.total < total || (this.dealerHand.total > total && this.dealerHand.total > 21))
-          alert("Player wins!");
-        else alert("PUSH!");
-        this.reset();
-      }, 500);
-    }
-  }
 }
