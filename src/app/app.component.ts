@@ -46,11 +46,9 @@ export class AppComponent {
       this.dealerHand.cards.push(dealerCard);
     }, 500)
     setTimeout(() => {
-      var playerCard = this.cardsService.draw();
-      if (playerCard.name === "A") playerCard.value = 1;
-      this.playerHands[0].cards.push(playerCard);
+      this.playerHands[0].cards.push(this.cardsService.draw());
       this.playerHands[0].calculate();
-      //if (this.playerHands[0].total > 21) this.playerHands[0].total -= 10;
+      if (this.playerHands[0].total > 21) this.playerHands[0].total -= 10;
     }, 1000)
     setTimeout(() => {
       this.dealerHand.cards.push(this.cardsService.draw());
@@ -80,7 +78,7 @@ export class AppComponent {
         this.reset();
       }, 500);
     }
-    if (this.playerHands[0].cards[0].value === this.playerHands[0].cards[1].value) {
+    if (this.playerHands[0].cards[0].name === this.playerHands[0].cards[1].name) {
       this.showSplitButton = true;
     }
   }
@@ -170,9 +168,9 @@ export class AppComponent {
         var aces = this.dealerHand.cards.filter(x => x.name === "A");
         if (aces.length == 2)
           this.dealerHand.total -= 10;
-        this.playerHands.forEach(playerHand => {
-          this.compare(playerHand.total);
-        });
+        setTimeout(() => {
+          this.compare(this.playerHands[0].total);
+        }, 500);
       }
 
     }, 500);
@@ -182,7 +180,8 @@ export class AppComponent {
     var card = this.cardsService.draw();
     this.playerHands[this.handCounter].cards.push(card);
     this.playerHands[this.handCounter].calculate();
-    if (card.name === "A" && this.playerHands[this.handCounter].total > 21)
+    var aces = this.dealerHand.cards.filter(x => x.name === "A");
+    if (card.name === "A" && this.playerHands[this.handCounter].total > 21 || (aces && aces.length > 0))
       this.playerHands[this.handCounter].total -= 10;
     if (this.playerHands[this.handCounter].total <= 21) this.stand();
     else if (this.handCounter < this.playerHands.length - 1) {
