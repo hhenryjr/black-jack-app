@@ -433,7 +433,7 @@ export class CardsService {
     }
 
     draw(): ICard {
-        this.drawnCard = this.deck[Math.floor(Math.random() * this.deck.length)];
+        this.drawnCard = this.deck[0];//[Math.floor(Math.random() * this.deck.length)];
         var index = this.deck.indexOf(this.drawnCard);
         if (index > -1) this.deck.splice(index, 1);
         if (this.deck.length < 5) this.shuffle();
