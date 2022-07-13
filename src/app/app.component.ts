@@ -77,6 +77,15 @@ export class AppComponent {
         this.reset();
       }, 500);
     }
+    else if (this.dealerHand.total + this.dealerHand.cards[0].value == 21 &&
+      this.dealerHand.total + this.dealerHand.cards[0].value == this.playerHands[0].total) {
+      this.dealerHand.cards[0].isHidden = false;
+      this.dealerHand.calculate();
+      setTimeout(() => {
+        alert("PUSH!");
+        this.reset();
+      }, 500);
+    }
     if (this.playerHands[0].cards[0].name === this.playerHands[0].cards[1].name) {
       this.showSplitButton = true;
     }
