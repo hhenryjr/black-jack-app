@@ -42,7 +42,6 @@ export class AppComponent {
     setTimeout(() => {
       var dealerCard = this.cardsService.draw();
       dealerCard.isHidden = true;
-      if (dealerCard.name === "A") dealerCard.value = 1;
       this.dealerHand.cards.push(dealerCard);
     }, 500)
     setTimeout(() => {
@@ -141,6 +140,8 @@ export class AppComponent {
           this.playerHands[1].cards[0].name === "A") {
           this.dealerHand.cards[0].isHidden = false;
           this.dealerHand.calculate();
+          var aces = this.dealerHand.cards.filter(x => x.name === "A");
+          if (aces.length == 2) this.dealerHand.total -= 10;
           this.playerHands.forEach(playerHand => {
             this.compare(playerHand.total);
           });
@@ -153,6 +154,8 @@ export class AppComponent {
           var i = 0;
           this.dealerHand.cards[0].isHidden = false;
           this.dealerHand.calculate();
+          var aces = this.dealerHand.cards.filter(x => x.name === "A");
+          if (aces.length == 2) this.dealerHand.total -= 10;
           while (i < this.playerHands.length) {
             this.compare(this.playerHands[i].total);
             i++;
@@ -166,8 +169,7 @@ export class AppComponent {
         this.dealerHand.cards[0].isHidden = false;
         this.dealerHand.calculate();
         var aces = this.dealerHand.cards.filter(x => x.name === "A");
-        if (aces.length == 2)
-          this.dealerHand.total -= 10;
+        if (aces.length == 2) this.dealerHand.total -= 10;
         setTimeout(() => {
           this.compare(this.playerHands[0].total);
         }, 500);
@@ -278,11 +280,9 @@ export class AppComponent {
         this.dealerHand.total -= 10;
       else {
         var aces = this.dealerHand.cards.filter(x => x.name === "A");
-        if (aces && aces.length > 0) {
-          if (this.dealerHand.total > 21 && this.isSubtractingTen) {
-            this.dealerHand.total -= 10;
-            this.isSubtractingTen = false;
-          }
+        if (aces && aces.length > 0 && this.dealerHand.total > 21 && this.isSubtractingTen) {
+          this.dealerHand.total -= 10;
+          this.isSubtractingTen = false;
         }
       }
       setTimeout(() => {
