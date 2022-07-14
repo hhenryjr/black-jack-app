@@ -3,7 +3,6 @@ import { Card } from './cards/cards';
 import { ICard } from './cards/cards.interface';
 import { CardsService } from './cards/cards.service';
 import { Hand } from './hand/hand';
-import { Subscription, interval } from 'rxjs'
 
 @Component({
   selector: 'app-root',
@@ -11,7 +10,6 @@ import { Subscription, interval } from 'rxjs'
   styleUrls: ['./app.component2.css']
 })
 export class AppComponent {
-  private subscription: Subscription = new Subscription();
   title = 'Black Jack 21';
   playerCard: ICard = new Card();
   dealerHand: Hand = new Hand();
@@ -69,10 +67,10 @@ export class AppComponent {
       }, 500);
     }
     else if (this.playerHands[this.handCounter].total == 21) {
-      this.dealerHand.cards[0].isHidden = false;
-      this.dealerHand.calculate();
       setTimeout(() => {
         alert("BLACK JACK! You win!");
+        this.dealerHand.cards[0].isHidden = false;
+        this.dealerHand.calculate();
         this.reset();
       }, 500);
     }
@@ -97,14 +95,10 @@ export class AppComponent {
     if (this.playerHands.length > 1) {
       this.playerHands[this.handCounter].cards.push(card);
       this.playerHands[this.handCounter].calculate();
-      if (card.name === "A" && this.playerHands[this.handCounter].total > 21)
+      var aces = this.playerHands[this.handCounter].cards.filter(x => x.name === "A");
+      if (this.playerHands[this.handCounter].total > 21 && (card.name === "A" || aces && aces.length > 0)) {
         this.playerHands[this.handCounter].total -= 10;
-      else {
-        var aces = this.playerHands[this.handCounter].cards.filter(x => x.name === "A");
-        if (aces && aces.length > 0 && this.playerHands[this.handCounter].total > 21 && this.isSubtractingTen) {
-          this.playerHands[this.handCounter].total -= 10;
-          this.isSubtractingTen = false;
-        }
+        if (this.isSubtractingTen) this.isSubtractingTen = false;
       }
       if (this.playerHands[this.handCounter].total > 21) {
         alert("BUST!");
@@ -121,12 +115,10 @@ export class AppComponent {
       this.showSplitButton = false;
       this.playerHands[this.handCounter].cards.push(card);
       this.playerHands[this.handCounter].calculate();
-      if (card.name === "A" && (this.playerHands[this.handCounter].total > 21))
-        this.playerHands[this.handCounter].total -= 10;
       var aces = this.playerHands[this.handCounter].cards.filter(x => x.name === "A");
-      if (aces && aces.length > 0 && this.playerHands[this.handCounter].total > 21 && this.isSubtractingTen) {
+      if (this.playerHands[this.handCounter].total > 21 && (card.name === "A" || aces && aces.length > 0)) {
         this.playerHands[this.handCounter].total -= 10;
-        this.isSubtractingTen = false;
+        if (this.isSubtractingTen) this.isSubtractingTen = false;
       }
       if (this.playerHands[this.handCounter].total > 21) this.bust();
       if (this.playerHands[this.handCounter].total == 21) this.stand();
@@ -138,10 +130,9 @@ export class AppComponent {
     this.showStandButton = false;
     this.showDoubleButton = false;
     this.showSplitButton = false;
+    this.isSubtractingTen = true;
+
     setTimeout(() => {
-
-      this.isSubtractingTen = true;
-
       // If player has multiple hands from splitting
       if (this.playerHands.length > 1) {
         if (this.playerHands[this.handCounter].cards[0].name === "A" &&
@@ -191,7 +182,7 @@ export class AppComponent {
     this.playerHands[this.handCounter].cards.push(card);
     this.playerHands[this.handCounter].calculate();
     var aces = this.dealerHand.cards.filter(x => x.name === "A");
-    if (card.name === "A" && this.playerHands[this.handCounter].total > 21 || (aces && aces.length > 0))
+    if (this.playerHands[this.handCounter].total > 21 && (card.name === "A" || aces && aces.length > 0))
       this.playerHands[this.handCounter].total -= 10;
     if (this.playerHands[this.handCounter].total <= 21) this.stand();
     else if (this.handCounter < this.playerHands.length - 1) {
@@ -265,6 +256,8 @@ export class AppComponent {
       this.reset();
       this.dealerHand.cards[0].isHidden = false;
       this.dealerHand.calculate();
+      var aces = this.dealerHand.cards.filter(x => x.name === "A");
+      if (aces.length == 2) this.dealerHand.total -= 10;
     }, 500);
   }
 
@@ -285,13 +278,11 @@ export class AppComponent {
       var card = this.cardsService.draw();
       this.dealerHand.cards.push(card);
       this.dealerHand.calculate();
-      if (card.name === "A" && this.dealerHand.total > 21)
-        this.dealerHand.total -= 10;
-      else {
-        var aces = this.dealerHand.cards.filter(x => x.name === "A");
-        if (aces && aces.length > 0 && this.dealerHand.total > 21 && this.isSubtractingTen) {
+      var aces = this.dealerHand.cards.filter(x => x.name === "A");
+      if (this.dealerHand.total > 21) {
+        if (card.name === "A" || aces && aces.length > 0) {
           this.dealerHand.total -= 10;
-          this.isSubtractingTen = false;
+          if (this.isSubtractingTen) this.isSubtractingTen = false;
         }
       }
       setTimeout(() => {
@@ -309,5 +300,4 @@ export class AppComponent {
       }, 500);
     }
   }
-
 }
