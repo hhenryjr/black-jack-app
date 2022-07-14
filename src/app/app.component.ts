@@ -59,9 +59,9 @@ export class AppComponent {
     this.showStandButton = true;
     if (this.dealerHand.total + this.dealerHand.cards[0].value == 21 &&
       this.dealerHand.total + this.dealerHand.cards[0].value > this.playerHands[this.handCounter].total) {
+      this.dealerHand.cards[0].isHidden = false;
+      this.dealerHand.calculate();
       setTimeout(() => {
-        this.dealerHand.cards[0].isHidden = false;
-        this.dealerHand.calculate();
         alert("BLACK JACK! Dealer wins!");
         this.reset();
       }, 500);
@@ -83,9 +83,8 @@ export class AppComponent {
         this.reset();
       }, 500);
     }
-    if (this.playerHands[this.handCounter].cards[0].name === this.playerHands[this.handCounter].cards[1].name) {
+    if (this.playerHands[this.handCounter].cards[0].value === this.playerHands[this.handCounter].cards[1].value)
       this.showSplitButton = true;
-    }
   }
 
   hit() {
@@ -103,7 +102,7 @@ export class AppComponent {
       if (this.playerHands[this.handCounter].total > 21) {
         alert("BUST!");
         this.handCounter++;
-        this.checkSplitHand();
+        this.stand();
       }
       else if (this.playerHands[this.handCounter].total == 21) this.stand();
       if (this.playerHands[this.handCounter].cards.length < 3) this.showDoubleButton = false;
@@ -274,11 +273,14 @@ export class AppComponent {
   }
 
   compare(total: number) {
-    if (this.dealerHand.total < 17) {
+    var aces = this.dealerHand.cards.filter(x => x.name === "A");
+
+    // Dealer must hit on soft 17
+    if (this.dealerHand.total < 17 || (this.dealerHand.total == 17 && aces && aces.length == 1)) {
       var card = this.cardsService.draw();
       this.dealerHand.cards.push(card);
       this.dealerHand.calculate();
-      var aces = this.dealerHand.cards.filter(x => x.name === "A");
+      aces = this.dealerHand.cards.filter(x => x.name === "A");
       if (this.dealerHand.total > 21) {
         if (card.name === "A" || aces && aces.length > 0) {
           this.dealerHand.total -= 10;
