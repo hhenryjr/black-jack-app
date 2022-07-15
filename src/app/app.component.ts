@@ -103,13 +103,29 @@ export class AppComponent {
 
     // If player has multiple hands from splitting
     if (this.playerHands.length > 1) {
-      this.playerHands[this.handCounter].cards.push(card);
-      this.playerHands[this.handCounter].calculate();
-      var aces = this.playerHands[this.handCounter].cards.filter(x => x.name === "A");
-      if (this.playerHands[this.handCounter].total > 21 && (card.name === "A" || aces && aces.length > 0)) {
-        this.playerHands[this.handCounter].total -= 10;
-        if (this.isSubtractingTen) this.isSubtractingTen = false;
+      if (this.playerHands[this.handCounter].total + card.value > 21) {
+        if (card.name === "A") {
+          card.value -= 10;
+          this.isSubtractingTen = false;
+        }
+        var aces = this.playerHands[this.handCounter].cards.filter(x => x.name === "A");
+        if (aces && aces.length > 0 && this.isSubtractingTen) {
+          this.playerHands[this.handCounter].total -= 10;
+          this.isSubtractingTen = false;
+        }
       }
+      this.playerHands[this.handCounter].cards.push(card);
+      this.playerHands[this.handCounter].total += card.value;
+
+      // if (this.playerHands[this.handCounter].total + card.value > 21 && card.name === "A")
+      //   card.value -= 10;
+      // this.playerHands[this.handCounter].cards.push(card);
+      // this.playerHands[this.handCounter].calculate();
+      // var aces = this.playerHands[this.handCounter].cards.filter(x => x.name === "A");
+      // if (this.playerHands[this.handCounter].total > 21 && aces && aces.length > 0 && this.isSubtractingTen) {
+      //   this.playerHands[this.handCounter].total -= 10;
+      //   this.isSubtractingTen = false;
+      // }
       if (this.playerHands[this.handCounter].total > 21) {
         alert("BUST!");
         this.handCounter++;
@@ -123,13 +139,32 @@ export class AppComponent {
     else {
       this.showDoubleButton = false;
       this.showSplitButton = false;
-      this.playerHands[this.handCounter].cards.push(card);
-      this.playerHands[this.handCounter].calculate();
-      var aces = this.playerHands[this.handCounter].cards.filter(x => x.name === "A");
-      if (this.playerHands[this.handCounter].total > 21 && (card.name === "A" || aces && aces.length > 0)) {
-        this.playerHands[this.handCounter].total -= 10;
-        if (this.isSubtractingTen) this.isSubtractingTen = false;
+
+      if (this.playerHands[this.handCounter].total + card.value > 21) {
+        if (card.name === "A") {
+          card.value -= 10;
+          this.isSubtractingTen = false;
+        }
+        var aces = this.playerHands[this.handCounter].cards.filter(x => x.name === "A");
+        if (aces && aces.length > 0 && this.isSubtractingTen) {
+          this.playerHands[this.handCounter].total -= 10;
+          this.isSubtractingTen = false;
+        }
       }
+      this.playerHands[this.handCounter].cards.push(card);
+      this.playerHands[this.handCounter].total += card.value;
+
+      // if (this.playerHands[this.handCounter].total + card.value > 21 && card.name === "A")
+      //   card.value -= 10;
+      // this.playerHands[this.handCounter].cards.push(card);
+      // this.playerHands[this.handCounter].total += card.value;
+      // //this.playerHands[this.handCounter].calculate();
+      // var aces = this.playerHands[this.handCounter].cards.filter(x => x.name === "A");
+      // if (this.playerHands[this.handCounter].total > 21 && aces && aces.length > 0 && this.isSubtractingTen) {
+      //   this.playerHands[this.handCounter].total -= 10;
+      //   this.isSubtractingTen = false;
+      // }
+
       if (this.playerHands[this.handCounter].total > 21) this.bust();
       if (this.playerHands[this.handCounter].total == 21) this.stand();
     }
@@ -289,15 +324,28 @@ export class AppComponent {
     // Dealer must hit on soft 17
     if (this.dealerHand.total < 17 || (this.dealerHand.total == 17 && aces && aces.length == 1)) {
       var card = this.cardsService.draw();
-      this.dealerHand.cards.push(card);
-      this.dealerHand.calculate();
-      aces = this.dealerHand.cards.filter(x => x.name === "A");
-      if (this.dealerHand.total > 21) {
-        if (card.name === "A" || aces && aces.length > 0) {
+      if (this.dealerHand.total + card.value > 21) {
+        if (card.name === "A") {
+          card.value -= 10;
+          this.isSubtractingTen = false;
+        }
+        var aces = this.dealerHand.cards.filter(x => x.name === "A");
+        if (aces && aces.length > 0 && this.isSubtractingTen) {
           this.dealerHand.total -= 10;
-          if (this.isSubtractingTen) this.isSubtractingTen = false;
+          this.isSubtractingTen = false;
         }
       }
+      this.dealerHand.cards.push(card);
+      this.dealerHand.total += card.value;
+      // if (this.dealerHand.total + card.value > 21 && card.name === "A") card.value -= 10;
+      // this.dealerHand.cards.push(card);
+      // this.dealerHand.calculate();
+      // aces = this.dealerHand.cards.filter(x => x.name === "A");
+      // if (this.dealerHand.total > 21 && aces && aces.length > 0 && this.isSubtractingTen) {
+      //   this.dealerHand.total -= 10;
+      //   this.isSubtractingTen = false;
+      // }
+
       setTimeout(() => {
         this.compare(total);
       }, 500);
