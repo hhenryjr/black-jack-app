@@ -3,6 +3,7 @@ import { Card } from './cards/cards';
 import { ICard } from './cards/cards.interface';
 import { CardsService } from './cards/cards.service';
 import { Hand } from './hand/hand';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -23,16 +24,26 @@ export class AppComponent {
   showSplitButton: boolean = false;
   isSubtractingTen: boolean = true;
 
-  constructor(private cardsService: CardsService) { }
+  constructor(private cardsService: CardsService, public formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+    this.clearTable();
+  }
+
+  deckForm = new FormGroup({
+    numberOfDecks: new FormControl(1),
+  });
+
+  clearTable() {
     this.playerHands = [new Hand()];
     this.playerHands[this.handCounter].cards = [];
     this.dealerHand = new Hand();
+    var numberOfDecks = this.deckForm.value;
+    this.cardsService.setDeckNumber(numberOfDecks);
   }
 
   deal() {
-    this.ngOnInit();
+    this.clearTable();
     this.showDealButton = false;
     this.playerHands[this.handCounter].cards.push(this.cardsService.draw());
     this.playerHands[this.handCounter].calculate();
@@ -102,7 +113,7 @@ export class AppComponent {
       if (this.playerHands[this.handCounter].total > 21) {
         alert("BUST!");
         this.handCounter++;
-        this.stand();
+        this.checkSplitHand();
       }
       else if (this.playerHands[this.handCounter].total == 21) this.stand();
       if (this.playerHands[this.handCounter].cards.length < 3) this.showDoubleButton = false;

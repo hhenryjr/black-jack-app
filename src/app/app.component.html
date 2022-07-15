@@ -346,6 +346,22 @@
     <button *ngIf="showStandButton" (click)="stand()">STAND</button>
     <button *ngIf="showDoubleButton" (click)="doubleDown()">DOUBLE DOWN</button>
     <button *ngIf="showSplitButton" (click)="split()">SPLIT</button>
+    <div>
+      <form [formGroup]="deckForm">
+        <div>
+          <input id="one" type="number" value="1" name="numberOfDecks" formControlName="numberOfDecks">
+       </div>
+        <!-- <div>
+           <input id="one" type="radio" value="1" name="numberOfDecks" formControlName="numberOfDecks">
+           <label for="one">1</label>
+        </div>
+     
+        <div>
+           <input id="two" type="radio" value="2" name="numberOfDecks" formControlName="numberOfDecks">
+           <label for="two">2</label>
+        </div> -->
+     </form>
+    </div>
   </div>
 </body>
 

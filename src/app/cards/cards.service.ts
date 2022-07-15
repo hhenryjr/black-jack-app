@@ -426,6 +426,7 @@ export class CardsService {
     ];
     drawnCard: Card = new Card();
     shuffledDeck: ICard[];
+    numberOfDecks: number = 1;
 
     constructor() {
         this.shuffledDeck = this.deck;
@@ -442,5 +443,12 @@ export class CardsService {
 
     shuffle(): void {
         this.deck = this.shuffledDeck.slice(0);
+        for (var i = 1; i < this.numberOfDecks; i++) {
+            this.deck = this.deck.concat(this.shuffledDeck.slice(0));
+        }
+    }
+
+    setDeckNumber(decks: number): void {
+        this.numberOfDecks = decks;
     }
 }
