@@ -99,72 +99,24 @@ export class AppComponent {
   }
 
   hit() {
-    var card = this.cardsService.draw();
+    // Draws card and calculates hand
+    this.calculateHand();
 
     // If player has multiple hands from splitting
     if (this.playerHands.length > 1) {
-      if (this.playerHands[this.handCounter].total + card.value > 21) {
-        if (card.name === "A") {
-          card.value -= 10;
-          this.isSubtractingTen = false;
-        }
-        var aces = this.playerHands[this.handCounter].cards.filter(x => x.name === "A");
-        if (aces && aces.length > 0 && this.isSubtractingTen) {
-          this.playerHands[this.handCounter].total -= 10;
-          this.isSubtractingTen = false;
-        }
-      }
-      this.playerHands[this.handCounter].cards.push(card);
-      this.playerHands[this.handCounter].total += card.value;
-
-      // if (this.playerHands[this.handCounter].total + card.value > 21 && card.name === "A")
-      //   card.value -= 10;
-      // this.playerHands[this.handCounter].cards.push(card);
-      // this.playerHands[this.handCounter].calculate();
-      // var aces = this.playerHands[this.handCounter].cards.filter(x => x.name === "A");
-      // if (this.playerHands[this.handCounter].total > 21 && aces && aces.length > 0 && this.isSubtractingTen) {
-      //   this.playerHands[this.handCounter].total -= 10;
-      //   this.isSubtractingTen = false;
-      // }
       if (this.playerHands[this.handCounter].total > 21) {
         alert("BUST!");
-        this.handCounter++;
+        if (this.handCounter < this.playerHands.length) this.handCounter++;
         this.checkSplitHand();
       }
       else if (this.playerHands[this.handCounter].total == 21) this.stand();
-      if (this.playerHands[this.handCounter].cards.length < 3) this.showDoubleButton = false;
+      else if (this.playerHands[this.handCounter].cards.length == 2) this.showDoubleButton = true;
     }
 
     // If player has only one hand
     else {
       this.showDoubleButton = false;
       this.showSplitButton = false;
-
-      if (this.playerHands[this.handCounter].total + card.value > 21) {
-        if (card.name === "A") {
-          card.value -= 10;
-          this.isSubtractingTen = false;
-        }
-        var aces = this.playerHands[this.handCounter].cards.filter(x => x.name === "A");
-        if (aces && aces.length > 0 && this.isSubtractingTen) {
-          this.playerHands[this.handCounter].total -= 10;
-          this.isSubtractingTen = false;
-        }
-      }
-      this.playerHands[this.handCounter].cards.push(card);
-      this.playerHands[this.handCounter].total += card.value;
-
-      // if (this.playerHands[this.handCounter].total + card.value > 21 && card.name === "A")
-      //   card.value -= 10;
-      // this.playerHands[this.handCounter].cards.push(card);
-      // this.playerHands[this.handCounter].total += card.value;
-      // //this.playerHands[this.handCounter].calculate();
-      // var aces = this.playerHands[this.handCounter].cards.filter(x => x.name === "A");
-      // if (this.playerHands[this.handCounter].total > 21 && aces && aces.length > 0 && this.isSubtractingTen) {
-      //   this.playerHands[this.handCounter].total -= 10;
-      //   this.isSubtractingTen = false;
-      // }
-
       if (this.playerHands[this.handCounter].total > 21) this.bust();
       if (this.playerHands[this.handCounter].total == 21) this.stand();
     }
@@ -176,11 +128,11 @@ export class AppComponent {
     this.showDoubleButton = false;
     this.showSplitButton = false;
     this.isSubtractingTen = true;
-
     setTimeout(() => {
       // If player has multiple hands from splitting
       if (this.playerHands.length > 1) {
-        if (this.playerHands[this.handCounter].cards[0].name === "A" &&
+        if (this.handCounter < this.playerHands.length &&
+          this.playerHands[this.handCounter].cards[0].name === "A" &&
           this.playerHands[1].cards[0].name === "A") {
           this.dealerHand.cards[0].isHidden = false;
           this.dealerHand.calculate();
@@ -218,11 +170,14 @@ export class AppComponent {
           this.compare(this.playerHands[this.handCounter].total);
         }, 500);
       }
-
     }, 500);
   }
 
   doubleDown() {
+    this.showDoubleButton = false;
+    this.showSplitButton = false;
+    this.showHitButton = false;
+    this.showStandButton = false;
     var card = this.cardsService.draw();
     this.playerHands[this.handCounter].cards.push(card);
     this.playerHands[this.handCounter].calculate();
@@ -230,10 +185,10 @@ export class AppComponent {
     if (this.playerHands[this.handCounter].total > 21 && (card.name === "A" || aces && aces.length > 0))
       this.playerHands[this.handCounter].total -= 10;
     if (this.playerHands[this.handCounter].total <= 21) this.stand();
-    else if (this.handCounter < this.playerHands.length - 1) {
+    else if (this.handCounter < this.playerHands.length) {
       setTimeout(() => {
         alert("BUST!");
-        this.handCounter++;
+        if (this.handCounter < this.playerHands.length) this.handCounter++;
         this.checkSplitHand();
       }, 500);
     }
@@ -259,35 +214,38 @@ export class AppComponent {
   }
 
   checkSplitHand() {
-    if (this.playerHands[this.handCounter].cards[0].name === "A" &&
-      this.playerHands[this.handCounter + 1].cards[0].name === "A") {
-      this.showHitButton = false;
-      this.showStandButton = false;
-      this.showDoubleButton = false;
-      this.showSplitButton = false;
-      var index = 0;
-      this.playerHands.forEach(playerHand => {
-        index = this.playerHands.indexOf(playerHand);
+    if (this.handCounter < this.playerHands.length) {
+      if (this.playerHands[this.handCounter].cards[0].name === "A" &&
+        this.playerHands[this.handCounter + 1].cards[0].name === "A") {
+        this.showHitButton = false;
+        this.showStandButton = false;
+        this.showDoubleButton = false;
+        this.showSplitButton = false;
+        var index = 0;
+        this.playerHands.forEach(playerHand => {
+          index = this.playerHands.indexOf(playerHand);
+          setTimeout(() => {
+            playerHand.cards.push(this.cardsService.draw());
+            playerHand.calculate();
+          }, 500 * (index + 1));
+        });
         setTimeout(() => {
-          playerHand.cards.push(this.cardsService.draw());
-          playerHand.calculate();
+          this.stand();
         }, 500 * (index + 1));
-      });
-      setTimeout(() => {
-        this.stand();
-      }, 500 * (index + 1));
+      }
+      else {
+        this.playerHands[this.handCounter].cards.push(this.cardsService.draw());
+        this.playerHands[this.handCounter].calculate();
+        if (this.playerHands[this.handCounter].cards[0].value ===
+          this.playerHands[this.handCounter].cards[1].value)
+          this.showSplitButton = true;
+        else this.showSplitButton = false;
+        this.showHitButton = true;
+        this.showStandButton = true;
+        this.showDoubleButton = true;
+      }
     }
-    else if (this.handCounter == 0 || this.handCounter < this.playerHands.length) {
-      this.playerHands[this.handCounter].cards.push(this.cardsService.draw());
-      this.playerHands[this.handCounter].calculate();
-      if (this.playerHands[this.handCounter].cards[0].value ===
-        this.playerHands[this.handCounter].cards[1].value)
-        this.showSplitButton = true;
-      else this.showSplitButton = false;
-      this.showHitButton = true;
-      this.showStandButton = true;
-      this.showDoubleButton = true;
-    }
+
     else {
       setTimeout(() => {
         this.stand();
@@ -318,6 +276,23 @@ export class AppComponent {
     }, 500);
   }
 
+  calculateHand() {
+    var card = this.cardsService.draw();
+    if (this.playerHands[this.handCounter].total + card.value > 21) {
+      if (card.name === "A") {
+        card.value -= 10;
+        this.isSubtractingTen = false;
+      }
+      var aces = this.playerHands[this.handCounter].cards.filter(x => x.name === "A");
+      if (aces && aces.length > 0 && this.isSubtractingTen) {
+        this.playerHands[this.handCounter].total -= 10;
+        this.isSubtractingTen = false;
+      }
+    }
+    this.playerHands[this.handCounter].cards.push(card);
+    this.playerHands[this.handCounter].total += card.value;
+  }
+
   compare(total: number) {
     var aces = this.dealerHand.cards.filter(x => x.name === "A");
 
@@ -337,15 +312,6 @@ export class AppComponent {
       }
       this.dealerHand.cards.push(card);
       this.dealerHand.total += card.value;
-      // if (this.dealerHand.total + card.value > 21 && card.name === "A") card.value -= 10;
-      // this.dealerHand.cards.push(card);
-      // this.dealerHand.calculate();
-      // aces = this.dealerHand.cards.filter(x => x.name === "A");
-      // if (this.dealerHand.total > 21 && aces && aces.length > 0 && this.isSubtractingTen) {
-      //   this.dealerHand.total -= 10;
-      //   this.isSubtractingTen = false;
-      // }
-
       setTimeout(() => {
         this.compare(total);
       }, 500);
