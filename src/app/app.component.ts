@@ -116,10 +116,14 @@ export class AppComponent {
 
     // If player has multiple hands from splitting
     if (this.playerHands.length > 1) {
+      this.showDoubleButton = false;
+      this.showSplitButton = false;
       if (this.playerHands[this.handCounter].total > 21) {
-        alert("BUST!");
-        if (this.handCounter < this.playerHands.length) this.handCounter++;
-        this.checkSplitHand();
+        setTimeout(() => {
+          alert("BUST!");
+          if (this.handCounter < this.playerHands.length) this.handCounter++;
+          this.checkSplitHand();
+        }, 500);
       }
       else if (this.playerHands[this.handCounter].total == 21) this.stand();
       else if (this.playerHands[this.handCounter].cards.length == 2) this.showDoubleButton = true;
