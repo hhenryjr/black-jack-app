@@ -4,6 +4,7 @@ import { ICard } from './cards/cards.interface';
 import { CardsService } from './cards/cards.service';
 import { Hand } from './hand/hand';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-root',
@@ -311,9 +312,11 @@ export class AppComponent {
 
   compare(total: number) {
     var aces = this.dealerHand.cards.filter(x => x.name === "A");
+    var bustedHands = this.playerHands.filter(x => x.total > 21).length;
 
     // Dealer must hit on soft 17
-    if (this.dealerHand.total < 17 || (this.dealerHand.total == 17 && aces && aces.length > 0)) {
+    if ((this.dealerHand.total < 17 || (this.dealerHand.total == 17 && aces && aces.length > 0)) &&
+      bustedHands !== this.playerHands.length) {
       var card = this.cardsService.draw();
       if (this.dealerHand.total + card.value > 21) {
         if (card.name === "A") {
