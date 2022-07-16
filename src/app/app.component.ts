@@ -38,8 +38,8 @@ export class AppComponent {
     this.playerHands = [new Hand()];
     this.playerHands[this.handCounter].cards = [];
     this.dealerHand = new Hand();
-    var numberOfDecks = this.deckForm.value;
-    this.cardsService.setDeckNumber(numberOfDecks);
+    // var numberOfDecks = this.deckForm.value;
+    // this.cardsService.setDeckNumber(numberOfDecks);
   }
 
   deal() {
@@ -73,12 +73,20 @@ export class AppComponent {
       this.dealerHand.cards[0].isHidden = false;
       this.dealerHand.calculate();
       setTimeout(() => {
+        this.showDoubleButton = false;
+        this.showSplitButton = false;
+        this.showHitButton = false;
+        this.showStandButton = false;
         alert("BLACK JACK! Dealer wins!");
         this.reset();
       }, 500);
     }
     else if (this.playerHands[this.handCounter].total == 21) {
       setTimeout(() => {
+        this.showDoubleButton = false;
+        this.showSplitButton = false;
+        this.showHitButton = false;
+        this.showStandButton = false;
         alert("BLACK JACK! You win!");
         this.dealerHand.cards[0].isHidden = false;
         this.dealerHand.calculate();
@@ -89,6 +97,10 @@ export class AppComponent {
       this.dealerHand.total + this.dealerHand.cards[0].value == this.playerHands[this.handCounter].total) {
       this.dealerHand.cards[0].isHidden = false;
       this.dealerHand.calculate();
+      this.showDoubleButton = false;
+      this.showSplitButton = false;
+      this.showHitButton = false;
+      this.showStandButton = false;
       setTimeout(() => {
         alert("PUSH!");
         this.reset();
@@ -181,7 +193,7 @@ export class AppComponent {
     var card = this.cardsService.draw();
     this.playerHands[this.handCounter].cards.push(card);
     this.playerHands[this.handCounter].calculate();
-    var aces = this.dealerHand.cards.filter(x => x.name === "A");
+    var aces = this.playerHands[this.handCounter].cards.filter(x => x.name === "A");
     if (this.playerHands[this.handCounter].total > 21 && (card.name === "A" || aces && aces.length > 0))
       this.playerHands[this.handCounter].total -= 10;
     if (this.playerHands[this.handCounter].total <= 21) this.stand();

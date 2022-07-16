@@ -434,7 +434,7 @@ export class CardsService {
     }
 
     draw(): ICard {
-        this.drawnCard = this.deck[this.deck.length - 1];//[Math.floor(Math.random() * this.deck.length)];
+        this.drawnCard = this.deck[Math.floor(Math.random() * this.deck.length)];
         var index = this.deck.indexOf(this.drawnCard);
         if (index > -1) this.deck.splice(index, 1);
         if (this.deck.length < 5) this.shuffle();
@@ -443,10 +443,16 @@ export class CardsService {
 
     shuffle(): void {
         this.deck = this.shuffledDeck.slice(0);
-        this.deck = this.deck.concat(this.shuffledDeck.slice(0));
+        //this.deck = this.deck.concat(this.shuffledDeck.slice(0));
+        // var i = 0;
+        // while (i < this.numberOfDecks) {
+        //     if (i = 0) this.deck = this.shuffledDeck.slice(0);
+        //     else this.deck = this.deck.concat(this.shuffledDeck.slice(0));
+        //     i++;
+        // }
         // for (var i = 0; i < this.numberOfDecks - 1; i++) {
-        //     //this.deck = this.shuffledDeck.slice(0);
-        //     this.deck = this.deck.concat(this.shuffledDeck.slice(0));
+        //     if (i = 0) this.deck = this.shuffledDeck.slice(0);
+        //     else this.deck = this.deck.concat(this.shuffledDeck.slice(0));
         // }
     }
 
