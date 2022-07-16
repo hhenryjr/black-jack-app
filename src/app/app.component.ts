@@ -309,7 +309,7 @@ export class AppComponent {
     var aces = this.dealerHand.cards.filter(x => x.name === "A");
 
     // Dealer must hit on soft 17
-    if (this.dealerHand.total < 17 || (this.dealerHand.total == 17 && aces && aces.length == 1)) {
+    if (this.dealerHand.total < 17 || (this.dealerHand.total == 17 && aces && aces.length > 0)) {
       var card = this.cardsService.draw();
       if (this.dealerHand.total + card.value > 21) {
         if (card.name === "A") {
