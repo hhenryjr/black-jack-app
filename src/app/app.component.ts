@@ -253,6 +253,9 @@ export class AppComponent {
       else {
         this.playerHands[this.handCounter].cards.push(this.cardsService.draw());
         this.playerHands[this.handCounter].calculate();
+        if (this.playerHands[this.handCounter].cards[0].value +
+          this.playerHands[this.handCounter].cards[1].value == 21)
+          this.stand();
         if (this.playerHands[this.handCounter].cards[0].value ===
           this.playerHands[this.handCounter].cards[1].value)
           this.showSplitButton = true;
@@ -262,7 +265,6 @@ export class AppComponent {
         this.showDoubleButton = true;
       }
     }
-
     else {
       setTimeout(() => {
         this.stand();
