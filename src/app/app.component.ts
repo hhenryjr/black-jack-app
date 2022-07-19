@@ -24,6 +24,8 @@ export class AppComponent {
   showDoubleButton: boolean = false;
   showSplitButton: boolean = false;
   isSubtractingTen: boolean = true;
+  playerWins: number = 0;
+  playerLosses: number = 0;
 
   constructor(private cardsService: CardsService, public formBuilder: FormBuilder) { }
 
@@ -92,6 +94,7 @@ export class AppComponent {
         this.showHitButton = false;
         this.showStandButton = false;
         alert("BLACK JACK! Dealer wins!");
+        this.playerLosses++;
         this.reset();
       }, 500);
     }
@@ -102,6 +105,7 @@ export class AppComponent {
         this.showHitButton = false;
         this.showStandButton = false;
         alert("BLACK JACK! You win!");
+        this.playerWins++;
         this.dealerHand.cards[0].isHidden = false;
         this.dealerHand.calculate();
         this.reset();
@@ -122,6 +126,7 @@ export class AppComponent {
       if (this.playerHands[this.handCounter].total > 21) {
         setTimeout(() => {
           alert("BUST!");
+          this.playerLosses++;
           if (this.handCounter < this.playerHands.length) this.handCounter++;
           this.checkSplitHand();
         }, 500);
@@ -156,7 +161,7 @@ export class AppComponent {
           var aces = this.dealerHand.cards.filter(x => x.name === "A");
           if (aces.length == 2) this.dealerHand.total -= 10;
           this.playerHands.forEach(playerHand => {
-            this.compare(playerHand.total);
+            this.compare(playerHand);
           });
         }
         else if (this.handCounter < this.playerHands.length - 1) {
@@ -170,7 +175,7 @@ export class AppComponent {
           var aces = this.dealerHand.cards.filter(x => x.name === "A");
           if (aces.length == 2) this.dealerHand.total -= 10;
           while (i < this.playerHands.length) {
-            this.compare(this.playerHands[i].total);
+            this.compare(this.playerHands[i]);
             i++;
           }
           this.reset();
@@ -184,7 +189,7 @@ export class AppComponent {
         var aces = this.dealerHand.cards.filter(x => x.name === "A");
         if (aces.length == 2) this.dealerHand.total -= 10;
         setTimeout(() => {
-          this.compare(this.playerHands[this.handCounter].total);
+          this.compare(this.playerHands[this.handCounter]);
         }, 500);
       }
     }, 500);
@@ -205,6 +210,7 @@ export class AppComponent {
     else if (this.handCounter < this.playerHands.length) {
       setTimeout(() => {
         alert("BUST!");
+        this.playerLosses++;
         if (this.handCounter < this.playerHands.length) this.handCounter++;
         this.checkSplitHand();
       }, 500);
@@ -275,6 +281,7 @@ export class AppComponent {
   bust() {
     setTimeout(() => {
       alert("BUST! Player loses.");
+      this.playerLosses++;
       this.reset();
       this.dealerHand.cards[0].isHidden = false;
       this.dealerHand.calculate();
@@ -319,7 +326,7 @@ export class AppComponent {
     this.playerHands[this.handCounter].total += card.value;
   }
 
-  compare(total: number) {
+  compare(playerHand: Hand) {
     var aces = this.dealerHand.cards.filter(x => x.name === "A");
     var bustedHands = this.playerHands.filter(x => x.total > 21).length;
 
@@ -347,15 +354,20 @@ export class AppComponent {
       this.dealerHand.cards.push(card);
       this.dealerHand.total += card.value;
       setTimeout(() => {
-        this.compare(total);
+        this.compare(playerHand);
       }, 500);
     }
     else {
       setTimeout(() => {
-        if ((this.dealerHand.total > total && this.dealerHand.total <= 21) || total > 21)
+        if ((this.dealerHand.total > playerHand.total && this.dealerHand.total <= 21) || playerHand.total > 21) {
           alert("Dealer wins!");
-        else if (this.dealerHand.total < total || (this.dealerHand.total > total && this.dealerHand.total > 21))
+          if (!playerHand.isBusted) this.playerLosses++;
+        }
+        else if (this.dealerHand.total < playerHand.total ||
+          (this.dealerHand.total > playerHand.total && this.dealerHand.total > 21)) {
           alert("Player wins!");
+          this.playerWins++;
+        }
         else alert("PUSH!");
         this.reset();
       }, 500);

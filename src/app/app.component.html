@@ -309,7 +309,9 @@
     <h5>Dealer must hit on soft 17</h5>
   </div>
   <div>
-    Dealer
+    <h3>Dealer</h3> 
+  </div>
+  <div>
     <ul>
       <div class="row">
         <div *ngFor="let dealerCard of dealerHand.cards">
@@ -327,7 +329,10 @@
     <!-- <player [hands]="playerHands"></player> -->
   </div>
   <div>
-    Player
+    <h3>Player</h3> 
+    Wins: {{playerWins}} - Losses: {{playerLosses}}
+  </div>
+  <div>
     <ul *ngFor="let playerHand of playerHands">
       <div class="row">
         <div *ngFor="let playerCard of playerHand.cards">
