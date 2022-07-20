@@ -117,7 +117,7 @@ export class AppComponent {
 
   hit() {
     // Draws card and calculates hand
-    this.calculateHand();
+    this.drawCard();
 
     // If player has multiple hands from splitting
     if (this.playerHands.length > 1) {
@@ -174,11 +174,13 @@ export class AppComponent {
           this.dealerHand.calculate();
           var aces = this.dealerHand.cards.filter(x => x.name === "A");
           if (aces.length == 2) this.dealerHand.total -= 10;
-          while (i < this.playerHands.length) {
-            this.compare(this.playerHands[i]);
-            i++;
-          }
-          this.reset();
+          setTimeout(() => {
+            while (i < this.playerHands.length) {
+              this.compare(this.playerHands[i]);
+              i++;
+            }
+            this.reset();
+          }, 500);
         }
       }
 
@@ -228,7 +230,9 @@ export class AppComponent {
       this.playerHands.forEach(playerHand => {
         playerHand.calculate();
       });
-      this.checkSplitHand();
+      setTimeout(() => {
+        this.checkSplitHand();
+      }, 500);
     }
     else {
       alert("ERROR! - Missing split card.");
@@ -302,7 +306,7 @@ export class AppComponent {
     }, 500);
   }
 
-  calculateHand() {
+  drawCard() {
     var card = this.cardsService.draw();
     if (this.playerHands[this.handCounter].total + card.value > 21) {
       var aces = this.playerHands[this.handCounter].cards.filter(x => x.name === "A");
