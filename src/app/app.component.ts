@@ -26,6 +26,7 @@ export class AppComponent {
   isSubtractingTen: boolean = true;
   playerWins: number = 0;
   playerLosses: number = 0;
+  playerPushes: number = 0;
 
   constructor(private cardsService: CardsService, public formBuilder: FormBuilder) { }
 
@@ -81,6 +82,7 @@ export class AppComponent {
       this.showStandButton = false;
       setTimeout(() => {
         alert("PUSH!");
+        this.playerPushes++;
         this.reset();
       }, 500);
     }
@@ -126,7 +128,6 @@ export class AppComponent {
       if (this.playerHands[this.handCounter].total > 21) {
         setTimeout(() => {
           alert("BUST!");
-          this.playerLosses++;
           if (this.handCounter < this.playerHands.length) this.handCounter++;
           this.checkSplitHand();
         }, 500);
@@ -212,7 +213,6 @@ export class AppComponent {
     else if (this.handCounter < this.playerHands.length) {
       setTimeout(() => {
         alert("BUST!");
-        this.playerLosses++;
         if (this.handCounter < this.playerHands.length) this.handCounter++;
         this.checkSplitHand();
       }, 500);
@@ -365,14 +365,17 @@ export class AppComponent {
       setTimeout(() => {
         if ((this.dealerHand.total > playerHand.total && this.dealerHand.total <= 21) || playerHand.total > 21) {
           alert("Dealer wins!");
-          if (!playerHand.isBusted) this.playerLosses++;
+          this.playerLosses++;
         }
         else if (this.dealerHand.total < playerHand.total ||
           (this.dealerHand.total > playerHand.total && this.dealerHand.total > 21)) {
           alert("Player wins!");
           this.playerWins++;
         }
-        else alert("PUSH!");
+        else {
+          alert("PUSH!");
+          this.playerPushes++;
+        };
         this.reset();
       }, 500);
     }
