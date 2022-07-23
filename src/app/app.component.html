@@ -306,7 +306,9 @@
 <body>
   <div>
     <h1>{{title}}</h1>
-    <h5>Dealer must hit on soft 17</h5>
+    <p>Dealer must hit on soft 17</p>
+    <p>Blackjack pays 3:2</p>
+    <p>Insurance pays 2:1</p>
   </div>
   <div>
     <h3>Dealer</h3>
@@ -342,15 +344,35 @@
           </div>
         </div>
       </div>
-      <span>{{playerHand.total}}</span>
+      <div>{{playerHand.total}}</div>
+      <div>{{playerHand.betAmount | currency}}</div>
     </ul>
   </div>
   <div>
-    <button *ngIf="showDealButton" (click)="deal()">DEAL</button>
+    <button *ngIf="showDealButton && betAmount >= 5" (click)="deal()">DEAL</button>
     <button *ngIf="showHitButton" (click)="hit()">HIT</button>
     <button *ngIf="showStandButton" (click)="stand()">STAND</button>
     <button *ngIf="showDoubleButton" (click)="doubleDown()">DOUBLE DOWN</button>
     <button *ngIf="showSplitButton" (click)="split()">SPLIT</button>
+  </div>
+  <h4>Bet - MIN: $5 - MAX: $500</h4>
+  <div class="row">
+    {{betAmount | currency}}
+  </div>
+  <h4>Bank</h4>
+  <div class="row">
+    {{bankAmount | currency}}
+  </div>
+  <div *ngIf="showDealButton" class="row">
+    <img (click)="addMoney(1)" width="50px" height="50px"
+      src="https://js-css-poker.sourceforge.io/static/images/chip1.png">
+    <img (click)="addMoney(5)" width="50px" height="50px"
+      src="https://js-css-poker.sourceforge.io/static/images/chip5.png">
+    <img (click)="addMoney(25)" width="50px" height="50px"
+      src="https://js-css-poker.sourceforge.io/static/images/chip25.png">
+  </div>
+  <div *ngIf="showDealButton && betAmount > 0">
+    <button (click)="removeMoney()">REMOVE</button>
   </div>
 
 

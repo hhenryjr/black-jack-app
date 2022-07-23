@@ -3,6 +3,7 @@ import { ICard } from "../cards/cards.interface";
 export class Hand {
     cards: ICard[] = [];
     total: number = 0;
+    betAmount: number = 0;
 
     constructor() {}
 

@@ -27,6 +27,9 @@ export class AppComponent {
   playerWins: number = 0;
   playerLosses: number = 0;
   playerPushes: number = 0;
+  betAmount: number = 0;
+  bankAmount: number = 500;
+  isInsured: boolean = false;
 
   constructor(private cardsService: CardsService, public formBuilder: FormBuilder) { }
 
@@ -46,9 +49,23 @@ export class AppComponent {
     // this.cardsService.setDeckNumber(numberOfDecks);
   }
 
+  addMoney(amount: number) {
+    if (this.bankAmount > amount) {
+      this.betAmount += amount;
+      this.bankAmount -= amount;
+    }
+    else alert("You don't have enough money!");
+  }
+
+  removeMoney() {
+    this.bankAmount += this.betAmount;
+    this.betAmount = 0;
+  }
+
   deal() {
     this.clearTable();
     this.showDealButton = false;
+    this.playerHands[this.handCounter].betAmount = this.betAmount;
     this.playerHands[this.handCounter].cards.push(this.cardsService.draw());
     this.playerHands[this.handCounter].calculate();
     setTimeout(() => {
@@ -72,7 +89,45 @@ export class AppComponent {
     this.showDoubleButton = true;
     this.showHitButton = true;
     this.showStandButton = true;
-    if (this.dealerHand.total + this.dealerHand.cards[0].value == 21 &&
+    if (this.dealerHand.cards[1].name === "A") {
+      setTimeout(() => {
+        this.isInsured = (this.dealerHand.total + this.dealerHand.cards[0].value == 21 &&
+          this.dealerHand.total + this.dealerHand.cards[0].value == this.playerHands[this.handCounter].total) ?
+          confirm("Do you want even money?") : confirm("Do you want insurance?");
+        if (this.isInsured) {
+
+          var insuranceAmount = this.playerHands[this.handCounter].betAmount / 2;
+          this.playerHands[this.handCounter].betAmount += insuranceAmount;
+          this.bankAmount -= insuranceAmount;
+          if (this.dealerHand.total + this.dealerHand.cards[0].value == 21 &&
+            this.dealerHand.total + this.dealerHand.cards[0].value > this.playerHands[this.handCounter].total) {
+            this.dealerHand.cards[0].isHidden = false;
+            this.dealerHand.calculate();
+            setTimeout(() => {
+              this.showDoubleButton = false;
+              this.showSplitButton = false;
+              this.showHitButton = false;
+              this.showStandButton = false;
+              alert("BLACKJACK! Dealer wins!");
+              this.playerHands[this.handCounter].betAmount = 0;
+              this.bankAmount += (insuranceAmount * 2);
+              this.playerLosses++;
+              this.reset();
+            }, 500);
+          }
+          else if (this.dealerHand.total + this.dealerHand.cards[0].value == 21 &&
+            this.dealerHand.total + this.dealerHand.cards[0].value == this.playerHands[this.handCounter].total) {
+            this.bankAmount += (this.playerHands[this.handCounter].betAmount * 2);
+            this.playerHands[this.handCounter].betAmount = 0;
+          }
+          else {
+            alert("Dealer does not have blackjack!");
+            this.playerHands[this.handCounter].betAmount -= insuranceAmount;
+          }
+        }
+      }, 500);
+    }
+    else if (this.dealerHand.total + this.dealerHand.cards[0].value == 21 &&
       this.dealerHand.total + this.dealerHand.cards[0].value == this.playerHands[this.handCounter].total) {
       this.dealerHand.cards[0].isHidden = false;
       this.dealerHand.calculate();
@@ -82,6 +137,8 @@ export class AppComponent {
       this.showStandButton = false;
       setTimeout(() => {
         alert("PUSH!");
+        this.bankAmount += this.betAmount;
+        this.playerHands[this.handCounter].betAmount = 0;
         this.playerPushes++;
         this.reset();
       }, 500);
@@ -95,7 +152,8 @@ export class AppComponent {
         this.showSplitButton = false;
         this.showHitButton = false;
         this.showStandButton = false;
-        alert("BLACK JACK! Dealer wins!");
+        alert("BLACKJACK! Dealer wins!");
+        this.playerHands[this.handCounter].betAmount = 0;
         this.playerLosses++;
         this.reset();
       }, 500);
@@ -106,7 +164,9 @@ export class AppComponent {
         this.showSplitButton = false;
         this.showHitButton = false;
         this.showStandButton = false;
-        alert("BLACK JACK! You win!");
+        alert("BLACKJACK! You win!");
+        this.bankAmount += (this.playerHands[this.handCounter].betAmount + (this.playerHands[this.handCounter].betAmount * 1.5));
+        this.playerHands[this.handCounter].betAmount = 0;
         this.playerWins++;
         this.dealerHand.cards[0].isHidden = false;
         this.dealerHand.calculate();
@@ -128,6 +188,8 @@ export class AppComponent {
       if (this.playerHands[this.handCounter].total > 21) {
         setTimeout(() => {
           alert("BUST!");
+          this.playerHands[this.handCounter].betAmount = 0;
+          this.betAmount = 0;
           if (this.handCounter < this.playerHands.length) this.handCounter++;
           this.checkSplitHand();
         }, 500);
@@ -204,6 +266,8 @@ export class AppComponent {
     this.showHitButton = false;
     this.showStandButton = false;
     var card = this.cardsService.draw();
+    this.bankAmount -= this.playerHands[this.handCounter].betAmount;
+    this.playerHands[this.handCounter].betAmount *= 2;
     this.playerHands[this.handCounter].cards.push(card);
     this.playerHands[this.handCounter].calculate();
     var aces = this.playerHands[this.handCounter].cards.filter(x => x.name === "A");
@@ -213,6 +277,8 @@ export class AppComponent {
     else if (this.handCounter < this.playerHands.length) {
       setTimeout(() => {
         alert("BUST!");
+        this.playerHands[this.handCounter].betAmount = 0;
+        this.betAmount = 0;
         if (this.handCounter < this.playerHands.length) this.handCounter++;
         this.checkSplitHand();
       }, 500);
@@ -226,6 +292,8 @@ export class AppComponent {
     var splitCard = this.playerHands[this.handCounter].cards.pop() || new Card();
     if (splitCard.id > 0) {
       splitHand.cards.push(splitCard);
+      splitHand.betAmount = this.playerHands[this.handCounter].betAmount;
+      this.bankAmount -= this.playerHands[this.handCounter].betAmount;
       this.playerHands.push(splitHand);
       this.playerHands.forEach(playerHand => {
         playerHand.calculate();
@@ -285,6 +353,8 @@ export class AppComponent {
   bust() {
     setTimeout(() => {
       alert("BUST! Player loses.");
+      this.playerHands[this.handCounter].betAmount = 0;
+      this.betAmount = 0;
       this.playerLosses++;
       this.reset();
       this.dealerHand.cards[0].isHidden = false;
@@ -303,6 +373,7 @@ export class AppComponent {
       this.showSplitButton = false;
       this.isSubtractingTen = true;
       this.handCounter = 0;
+      this.betAmount = 0;
     }, 500);
   }
 
@@ -311,15 +382,12 @@ export class AppComponent {
     if (this.playerHands[this.handCounter].total + card.value > 21) {
       var aces = this.playerHands[this.handCounter].cards.filter(x => x.name === "A");
       if (card.name === "A") {
-        if (aces && aces.length > 0 && this.playerHands[this.handCounter].cards.length < 3 &&
-          this.playerHands[this.handCounter].total > 10) {
+        if (aces && aces.length > 0)
           this.playerHands[this.handCounter].total -= 10;
-        }
         else if (this.playerHands[this.handCounter].total > 10) {
           this.playerHands[this.handCounter].total -= 10;
           this.isSubtractingTen = false;
         }
-        else this.playerHands[this.handCounter].total -= 10;
       }
       else if (aces && aces.length > 0 && this.isSubtractingTen) {
         this.playerHands[this.handCounter].total -= 10;
@@ -365,16 +433,21 @@ export class AppComponent {
       setTimeout(() => {
         if ((this.dealerHand.total > playerHand.total && this.dealerHand.total <= 21) || playerHand.total > 21) {
           alert("Dealer wins!");
+          if (playerHand.total < 21) playerHand.betAmount = 0;
           this.playerLosses++;
         }
         else if (this.dealerHand.total < playerHand.total ||
           (this.dealerHand.total > playerHand.total && this.dealerHand.total > 21)) {
           alert("Player wins!");
+          this.bankAmount += (playerHand.betAmount * 2);
+          playerHand.betAmount = 0;
           this.playerWins++;
         }
         else {
           alert("PUSH!");
           this.playerPushes++;
+          this.bankAmount += this.betAmount;
+          playerHand.betAmount = 0;
         };
         this.reset();
       }, 500);
