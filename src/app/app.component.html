@@ -309,6 +309,7 @@
     <p>Dealer must hit on soft 17</p>
     <p>Blackjack pays 3:2</p>
     <p>Insurance pays 2:1</p>
+    <p>Surrender loses 1:2</p>
   </div>
   <div>
     <h3>Dealer</h3>
@@ -354,6 +355,7 @@
     <button *ngIf="showStandButton" (click)="stand()">STAND</button>
     <button *ngIf="showDoubleButton" (click)="doubleDown()">DOUBLE DOWN</button>
     <button *ngIf="showSplitButton" (click)="split()">SPLIT</button>
+    <button *ngIf="showSurrenderButton" (click)="surrender()">SURRENDER</button>
   </div>
   <h4>Bet - MIN: $5 - MAX: $500</h4>
   <div class="row">

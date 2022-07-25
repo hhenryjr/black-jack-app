@@ -23,6 +23,7 @@ export class AppComponent {
   showStandButton: boolean = false;
   showDoubleButton: boolean = false;
   showSplitButton: boolean = false;
+  showSurrenderButton: boolean = false;
   isSubtractingTen: boolean = true;
   playerWins: number = 0;
   playerLosses: number = 0;
@@ -89,13 +90,13 @@ export class AppComponent {
     this.showDoubleButton = true;
     this.showHitButton = true;
     this.showStandButton = true;
+    this.showSurrenderButton = true;
     if (this.dealerHand.cards[1].name === "A") {
       setTimeout(() => {
         this.isInsured = (this.dealerHand.total + this.dealerHand.cards[0].value == 21 &&
           this.dealerHand.total + this.dealerHand.cards[0].value == this.playerHands[this.handCounter].total) ?
           confirm("Do you want even money?") : confirm("Do you want insurance?");
         if (this.isInsured) {
-
           var insuranceAmount = this.playerHands[this.handCounter].betAmount / 2;
           this.playerHands[this.handCounter].betAmount += insuranceAmount;
           this.bankAmount -= insuranceAmount;
@@ -108,6 +109,7 @@ export class AppComponent {
               this.showSplitButton = false;
               this.showHitButton = false;
               this.showStandButton = false;
+              this.showSurrenderButton = false;
               alert("BLACKJACK! Dealer wins!");
               this.playerHands[this.handCounter].betAmount = 0;
               this.bankAmount += (insuranceAmount * 2);
@@ -121,8 +123,28 @@ export class AppComponent {
             this.playerHands[this.handCounter].betAmount = 0;
           }
           else {
-            alert("Dealer does not have blackjack!");
-            this.playerHands[this.handCounter].betAmount -= insuranceAmount;
+            setTimeout(() => {
+              alert("Dealer does not have blackjack!");
+              this.playerHands[this.handCounter].betAmount -= insuranceAmount;
+            }, 500);
+          }
+        }
+        else {
+          if (this.dealerHand.total + this.dealerHand.cards[0].value == 21 &&
+            this.dealerHand.total + this.dealerHand.cards[0].value > this.playerHands[this.handCounter].total) {
+            this.dealerHand.cards[0].isHidden = false;
+            this.dealerHand.calculate();
+            setTimeout(() => {
+              this.showDoubleButton = false;
+              this.showSplitButton = false;
+              this.showHitButton = false;
+              this.showStandButton = false;
+              this.showSurrenderButton = false;
+              alert("BLACKJACK! Dealer wins!");
+              this.playerHands[this.handCounter].betAmount = 0;
+              this.playerLosses++;
+              this.reset();
+            }, 500);
           }
         }
       }, 500);
@@ -135,6 +157,7 @@ export class AppComponent {
       this.showSplitButton = false;
       this.showHitButton = false;
       this.showStandButton = false;
+      this.showSurrenderButton = false;
       setTimeout(() => {
         alert("PUSH!");
         this.bankAmount += this.betAmount;
@@ -152,6 +175,7 @@ export class AppComponent {
         this.showSplitButton = false;
         this.showHitButton = false;
         this.showStandButton = false;
+        this.showSurrenderButton = false;
         alert("BLACKJACK! Dealer wins!");
         this.playerHands[this.handCounter].betAmount = 0;
         this.playerLosses++;
@@ -164,6 +188,7 @@ export class AppComponent {
         this.showSplitButton = false;
         this.showHitButton = false;
         this.showStandButton = false;
+        this.showSurrenderButton = false;
         alert("BLACKJACK! You win!");
         this.bankAmount += (this.playerHands[this.handCounter].betAmount + (this.playerHands[this.handCounter].betAmount * 1.5));
         this.playerHands[this.handCounter].betAmount = 0;
@@ -178,13 +203,15 @@ export class AppComponent {
   }
 
   hit() {
+    this.showDoubleButton = false;
+    this.showSplitButton = false;
+    this.showSurrenderButton = false;
+
     // Draws card and calculates hand
     this.drawCard();
 
     // If player has multiple hands from splitting
     if (this.playerHands.length > 1) {
-      this.showDoubleButton = false;
-      this.showSplitButton = false;
       if (this.playerHands[this.handCounter].total > 21) {
         setTimeout(() => {
           alert("BUST!");
@@ -200,8 +227,6 @@ export class AppComponent {
 
     // If player has only one hand
     else {
-      this.showDoubleButton = false;
-      this.showSplitButton = false;
       if (this.playerHands[this.handCounter].total > 21) this.bust();
       if (this.playerHands[this.handCounter].total == 21) this.stand();
     }
@@ -212,6 +237,7 @@ export class AppComponent {
     this.showStandButton = false;
     this.showDoubleButton = false;
     this.showSplitButton = false;
+    this.showSurrenderButton = false;
     this.isSubtractingTen = true;
     setTimeout(() => {
       // If player has multiple hands from splitting
@@ -265,6 +291,7 @@ export class AppComponent {
     this.showSplitButton = false;
     this.showHitButton = false;
     this.showStandButton = false;
+    this.showSurrenderButton = false;
     var card = this.cardsService.draw();
     this.bankAmount -= this.playerHands[this.handCounter].betAmount;
     this.playerHands[this.handCounter].betAmount *= 2;
@@ -288,6 +315,7 @@ export class AppComponent {
 
   split() {
     this.showSplitButton = false;
+    this.showSurrenderButton = false;
     var splitHand = new Hand();
     var splitCard = this.playerHands[this.handCounter].cards.pop() || new Card();
     if (splitCard.id > 0) {
@@ -305,6 +333,29 @@ export class AppComponent {
     else {
       alert("ERROR! - Missing split card.");
       this.reset();
+    }
+  }
+
+  surrender() {
+    if (confirm("Are you sure you want to surrender?")) {
+      setTimeout(() => {
+        this.showHitButton = false;
+        this.showStandButton = false;
+        this.showDoubleButton = false;
+        this.showSplitButton = false;
+        this.showSurrenderButton = false;
+        this.playerHands[this.handCounter].betAmount /= 2;
+        this.dealerHand.cards[0].isHidden = false;
+        this.dealerHand.calculate();
+        var aces = this.dealerHand.cards.filter(x => x.name === "A");
+        if (aces.length == 2) this.dealerHand.total -= 10;
+        setTimeout(() => {
+          alert("You have surrendered!");
+          this.playerLosses++;
+          this.bankAmount += this.playerHands[this.handCounter].betAmount;
+          this.reset();
+        }, 500);
+      }, 500);
     }
   }
 
@@ -371,6 +422,7 @@ export class AppComponent {
       this.showStandButton = false;
       this.showDoubleButton = false;
       this.showSplitButton = false;
+      this.showSurrenderButton = false;
       this.isSubtractingTen = true;
       this.handCounter = 0;
       this.betAmount = 0;
