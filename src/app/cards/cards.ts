@@ -5,4 +5,5 @@ export class Card {
     color: string = '';
     suit: string = '';
     isHidden: boolean = false;
+    src: string = '';
 }

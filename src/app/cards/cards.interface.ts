@@ -5,4 +5,5 @@ export interface ICard {
     color: string,
     suit: string,
     isHidden: boolean,
+    src: string
   }

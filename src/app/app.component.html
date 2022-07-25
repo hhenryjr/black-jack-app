@@ -318,18 +318,13 @@
     <ul>
       <div class="row">
         <div *ngFor="let dealerCard of dealerHand.cards">
-          <div [ngClass]="{'coveredCard': dealerCard.isHidden,'card': !dealerCard.isHidden}"
-            [ngStyle]="{color:dealerCard.color}">
-            <span *ngIf="!dealerCard.isHidden">{{dealerCard.name}}</span><br />
-            <span *ngIf="!dealerCard.isHidden" innerHTML="{{dealerCard.suit}}"></span>
-          </div>
+          <img class="card" *ngIf="!dealerCard.isHidden" [src]="dealerCard.src">
+          <img class="card" *ngIf="dealerCard.isHidden"
+            src="https://js-css-poker.sourceforge.io/static/images/back.png">
         </div>
       </div>
       <span>{{dealerHand.total}}</span>
     </ul>
-    <!-- <cards></cards> -->
-    <!-- <player [card]="playerCard" (change)="cardChange($event)"></player> -->
-    <!-- <player [hands]="playerHands"></player> -->
   </div>
   <div>
     <h3>Player</h3>
@@ -339,10 +334,7 @@
     <ul *ngFor="let playerHand of playerHands">
       <div class="row">
         <div *ngFor="let playerCard of playerHand.cards">
-          <div class="card" [ngStyle]="{color:playerCard.color}">
-            <span>{{playerCard.name}}</span><br />
-            <span innerHTML="{{playerCard.suit}}"></span>
-          </div>
+          <img class="card" [src]="playerCard.src">
         </div>
       </div>
       <div>{{playerHand.total}}</div>

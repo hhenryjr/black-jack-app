@@ -13,7 +13,8 @@ export class CardsService {
             value: 11,
             isHidden: false,
             suit: "&#9824;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/ace_of_spades.png"
         },
         {
             id: 2,
@@ -21,7 +22,8 @@ export class CardsService {
             value: 11,
             isHidden: false,
             suit: "&#9827;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/ace_of_clubs.png"
         },
         {
             id: 3,
@@ -29,7 +31,8 @@ export class CardsService {
             value: 11,
             isHidden: false,
             suit: "&#9829;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/ace_of_hearts.png"
         },
         {
             id: 4,
@@ -37,7 +40,8 @@ export class CardsService {
             value: 11,
             isHidden: false,
             suit: "&#9830;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/ace_of_diamonds.png"
         },
         {
             id: 5,
@@ -45,7 +49,8 @@ export class CardsService {
             value: 2,
             isHidden: false,
             suit: "&#9824;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/2_of_spades.png"
         },
         {
             id: 6,
@@ -53,7 +58,8 @@ export class CardsService {
             value: 2,
             isHidden: false,
             suit: "&#9827;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/2_of_clubs.png"
         },
         {
             id: 7,
@@ -61,7 +67,8 @@ export class CardsService {
             value: 2,
             isHidden: false,
             suit: "&#9829;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/2_of_hearts.png"
         },
         {
             id: 8,
@@ -69,7 +76,8 @@ export class CardsService {
             value: 2,
             isHidden: false,
             suit: "&#9830;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/2_of_diamonds.png"
         },
         {
             id: 9,
@@ -77,7 +85,8 @@ export class CardsService {
             value: 3,
             isHidden: false,
             suit: "&#9824;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/3_of_spades.png"
         },
         {
             id: 10,
@@ -85,7 +94,8 @@ export class CardsService {
             value: 3,
             isHidden: false,
             suit: "&#9827;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/3_of_clubs.png"
         },
         {
             id: 11,
@@ -93,7 +103,8 @@ export class CardsService {
             value: 3,
             isHidden: false,
             suit: "&#9829;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/3_of_hearts.png"
         },
         {
             id: 12,
@@ -101,7 +112,8 @@ export class CardsService {
             value: 3,
             isHidden: false,
             suit: "&#9830;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/3_of_diamonds.png"
         },
         {
             id: 13,
@@ -109,7 +121,8 @@ export class CardsService {
             value: 4,
             isHidden: false,
             suit: "&#9824;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/4_of_spades.png"
         },
         {
             id: 14,
@@ -117,7 +130,8 @@ export class CardsService {
             value: 4,
             isHidden: false,
             suit: "&#9827;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/4_of_clubs.png"
         },
         {
             id: 15,
@@ -125,7 +139,8 @@ export class CardsService {
             value: 4,
             isHidden: false,
             suit: "&#9829;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/4_of_hearts.png"
         },
         {
             id: 16,
@@ -133,7 +148,8 @@ export class CardsService {
             value: 4,
             isHidden: false,
             suit: "&#9830;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/4_of_diamonds.png"
         },
         {
             id: 17,
@@ -141,7 +157,8 @@ export class CardsService {
             value: 5,
             isHidden: false,
             suit: "&#9824;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/5_of_spades.png"
         },
         {
             id: 18,
@@ -149,7 +166,8 @@ export class CardsService {
             value: 5,
             isHidden: false,
             suit: "&#9827;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/5_of_clubs.png"
         },
         {
             id: 19,
@@ -157,7 +175,8 @@ export class CardsService {
             value: 5,
             isHidden: false,
             suit: "&#9829;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/5_of_hearts.png"
         },
         {
             id: 20,
@@ -165,7 +184,8 @@ export class CardsService {
             value: 5,
             isHidden: false,
             suit: "&#9830;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/5_of_diamonds.png"
         },
         {
             id: 21,
@@ -173,7 +193,8 @@ export class CardsService {
             value: 6,
             isHidden: false,
             suit: "&#9824;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/6_of_spades.png"
         },
         {
             id: 22,
@@ -181,7 +202,8 @@ export class CardsService {
             value: 6,
             isHidden: false,
             suit: "&#9827;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/6_of_clubs.png"
         },
         {
             id: 23,
@@ -189,7 +211,8 @@ export class CardsService {
             value: 6,
             isHidden: false,
             suit: "&#9829;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/6_of_hearts.png"
         },
         {
             id: 24,
@@ -197,7 +220,8 @@ export class CardsService {
             value: 6,
             isHidden: false,
             suit: "&#9830;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/6_of_diamonds.png"
         },
         {
             id: 25,
@@ -205,7 +229,8 @@ export class CardsService {
             value: 7,
             isHidden: false,
             suit: "&#9824;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/7_of_spades.png"
         },
         {
             id: 26,
@@ -213,7 +238,8 @@ export class CardsService {
             value: 7,
             isHidden: false,
             suit: "&#9827;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/7_of_clubs.png"
         },
         {
             id: 27,
@@ -221,7 +247,8 @@ export class CardsService {
             value: 7,
             isHidden: false,
             suit: "&#9829;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/7_of_hearts.png"
         },
         {
             id: 28,
@@ -229,7 +256,8 @@ export class CardsService {
             value: 7,
             isHidden: false,
             suit: "&#9830;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/7_of_diamonds.png"
         },
         {
             id: 29,
@@ -237,7 +265,8 @@ export class CardsService {
             value: 8,
             isHidden: false,
             suit: "&#9824;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/8_of_spades.png"
         },
         {
             id: 30,
@@ -245,7 +274,8 @@ export class CardsService {
             value: 8,
             isHidden: false,
             suit: "&#9827;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/8_of_clubs.png"
         },
         {
             id: 31,
@@ -253,7 +283,8 @@ export class CardsService {
             value: 8,
             isHidden: false,
             suit: "&#9829;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/8_of_hearts.png"
         },
         {
             id: 32,
@@ -261,7 +292,8 @@ export class CardsService {
             value: 8,
             isHidden: false,
             suit: "&#9830;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/8_of_diamonds.png"
         },
         {
             id: 33,
@@ -269,7 +301,8 @@ export class CardsService {
             value: 9,
             isHidden: false,
             suit: "&#9824;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/9_of_spades.png"
         },
         {
             id: 34,
@@ -277,7 +310,8 @@ export class CardsService {
             value: 9,
             isHidden: false,
             suit: "&#9827;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/9_of_clubs.png"
         },
         {
             id: 35,
@@ -285,7 +319,8 @@ export class CardsService {
             value: 9,
             isHidden: false,
             suit: "&#9829;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/9_of_hearts.png"
         },
         {
             id: 36,
@@ -293,7 +328,8 @@ export class CardsService {
             value: 9,
             isHidden: false,
             suit: "&#9830;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/9_of_diamonds.png"
         },
         {
             id: 37,
@@ -301,7 +337,8 @@ export class CardsService {
             value: 10,
             isHidden: false,
             suit: "&#9824;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/10_of_spades.png"
         },
         {
             id: 38,
@@ -309,7 +346,8 @@ export class CardsService {
             value: 10,
             isHidden: false,
             suit: "&#9827;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/10_of_clubs.png"
         },
         {
             id: 39,
@@ -317,7 +355,8 @@ export class CardsService {
             value: 10,
             isHidden: false,
             suit: "&#9829;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/10_of_hearts.png"
         },
         {
             id: 40,
@@ -325,7 +364,8 @@ export class CardsService {
             value: 10,
             isHidden: false,
             suit: "&#9830;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/10_of_diamonds.png"
         },
         {
             id: 41,
@@ -333,7 +373,8 @@ export class CardsService {
             value: 10,
             isHidden: false,
             suit: "&#9824;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/jack_of_spades.png"
         },
         {
             id: 42,
@@ -341,7 +382,8 @@ export class CardsService {
             value: 10,
             isHidden: false,
             suit: "&#9827;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/jack_of_clubs.png"
         },
         {
             id: 43,
@@ -349,7 +391,8 @@ export class CardsService {
             value: 10,
             isHidden: false,
             suit: "&#9829;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/jack_of_hearts.png"
         },
         {
             id: 44,
@@ -357,7 +400,8 @@ export class CardsService {
             value: 10,
             isHidden: false,
             suit: "&#9830;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/jack_of_diamonds.png"
         },
         {
             id: 45,
@@ -365,7 +409,8 @@ export class CardsService {
             value: 10,
             isHidden: false,
             suit: "&#9824;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/queen_of_spades.png"
         },
         {
             id: 46,
@@ -373,7 +418,8 @@ export class CardsService {
             value: 10,
             isHidden: false,
             suit: "&#9827;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/queen_of_clubs.png"
         },
         {
             id: 47,
@@ -381,7 +427,8 @@ export class CardsService {
             value: 10,
             isHidden: false,
             suit: "&#9829;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/queen_of_hearts.png"
         },
         {
             id: 48,
@@ -389,7 +436,8 @@ export class CardsService {
             value: 10,
             isHidden: false,
             suit: "&#9830;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/queen_of_diamonds.png"
         },
         {
             id: 49,
@@ -397,7 +445,8 @@ export class CardsService {
             value: 10,
             isHidden: false,
             suit: "&#9824;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/king_of_spades.png"
         },
         {
             id: 50,
@@ -405,7 +454,8 @@ export class CardsService {
             value: 10,
             isHidden: false,
             suit: "&#9827;",
-            color: "black"
+            color: "black",
+            src: "https://js-css-poker.sourceforge.io/static/images/king_of_clubs.png"
         },
         {
             id: 51,
@@ -413,7 +463,8 @@ export class CardsService {
             value: 10,
             isHidden: false,
             suit: "&#9829;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/king_of_hearts.png"
         },
         {
             id: 52,
@@ -421,7 +472,8 @@ export class CardsService {
             value: 10,
             isHidden: false,
             suit: "&#9830;",
-            color: "red"
+            color: "red",
+            src: "https://js-css-poker.sourceforge.io/static/images/king_of_diamonds.png"
         }
     ];
     drawnCard: Card = new Card();
