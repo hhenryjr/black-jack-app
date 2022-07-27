@@ -51,11 +51,13 @@ export class AppComponent {
   }
 
   addMoney(amount: number) {
-    if (this.bankAmount >= amount) {
+    if (this.betAmount + amount > 500) alert("You have reached the maximum bet!");
+    else if (this.bankAmount >= amount) {
       this.betAmount += amount;
       this.bankAmount -= amount;
     }
-    else alert("You don't have enough money!");
+    else if (this.bankAmount < amount)
+      alert("You don't have enough money!");
   }
 
   removeMoney() {
@@ -93,8 +95,7 @@ export class AppComponent {
     this.showSurrenderButton = true;
     if (this.dealerHand.cards[1].name === "A") {
       setTimeout(() => {
-        this.isInsured = (this.dealerHand.total + this.dealerHand.cards[0].value == 21 &&
-          this.dealerHand.total + this.dealerHand.cards[0].value == this.playerHands[this.handCounter].total) ?
+        this.isInsured = (this.playerHands[this.handCounter].total == 21) ?
           confirm("Do you want even money?") : confirm("Do you want insurance?");
         var insuranceAmount = this.playerHands[this.handCounter].betAmount / 2;
         if (this.isInsured && this.bankAmount >= insuranceAmount) {
