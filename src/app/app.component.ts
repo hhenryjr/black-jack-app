@@ -12,7 +12,6 @@ import { ThisReceiver } from '@angular/compiler';
   styleUrls: ['./app.component2.css']
 })
 export class AppComponent {
-  title = 'Black Jack 21';
   playerCard: ICard = new Card();
   dealerHand: Hand = new Hand();
   playerHands: Hand[] = [new Hand()];
