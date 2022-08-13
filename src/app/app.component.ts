@@ -50,7 +50,20 @@ export class AppComponent {
   }
 
   addMoney(amount: number) {
-    if (this.betAmount + amount > 500) alert("You have reached the maximum bet!");
+    if (amount == 500) {
+      if (this.betAmount > 0) this.bankAmount += this.betAmount;
+      if (this.bankAmount >= amount) {
+        this.betAmount = amount;
+        this.bankAmount -= amount;
+      }
+      else {
+        this.betAmount = this.bankAmount;
+        this.bankAmount -= this.bankAmount;
+      }
+
+    }
+    else if (this.betAmount + amount > 500)
+      alert("You have reached the maximum bet!");
     else if (this.bankAmount >= amount) {
       this.betAmount += amount;
       this.bankAmount -= amount;
