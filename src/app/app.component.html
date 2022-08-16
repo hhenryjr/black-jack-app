@@ -58,8 +58,19 @@
           </div>
         </ul>
       </div>
-      <div class="card-body"
+      <div class="card-body" style="color:white"
         *ngIf="showHitButton || showStandButton || showDoubleButton || showSplitButton || showSurrenderButton">
+        <div class="container">
+          <div class="row">
+            <a class="btn btn-link" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <!-- <a class="btn btn-link" (click)="openCheatSheetModal()">-->
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+                <path
+                  d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+              </svg> Show Cheat Sheet</a>
+          </div>
+        </div>
         <a class="btn btn-primary" *ngIf="showHitButton" (click)="hit()">HIT</a>
         <a class="btn btn-primary" *ngIf="showStandButton" (click)="stand()">STAND</a>
         <a class="btn btn-primary" *ngIf="showDoubleButton" (click)="doubleDown()">DOUBLE DOWN</a>
@@ -98,8 +109,7 @@
             src="https://js-css-poker.sourceforge.io/static/images/chip5.png">
           <img (click)="addMoney(25)" width="50px" height="50px" style="margin-left: 5px;"
             src="https://js-css-poker.sourceforge.io/static/images/chip25.png">
-          <img (click)="addMoney(100)" width="50px" height="50px" style="margin-left: 5px;"
-            src="../assets/100chip.png">
+          <img (click)="addMoney(100)" width="50px" height="50px" style="margin-left: 5px;" src="../assets/chip100.png">
         </div>
         <div class="container">
           <button class="btn btn-primary btn-sm" *ngIf="bankAmount > 5 && betAmount < 500 && showDealButton"
@@ -108,8 +118,7 @@
         </div>
       </div>
       <div *ngIf="betAmount >= 5 && showDealButton && betAmount > 0" class="card-body">
-        <button class="btn btn-primary btn-"
-          (click)="deal()">DEAL</button>
+        <button class="btn btn-primary btn-" (click)="deal()">DEAL</button>
         <button class="btn btn-primary" *ngIf="showDealButton && betAmount > 0" (click)="removeMoney()">REMOVE</button>
       </div>
     </div>
