@@ -87,11 +87,6 @@
   }
 }
 
-html {
-  background: url("../assets/tabletop.jpg");
-  font-family: Helvetica;
-}
-
 body {
   margin: 0;
   font-family: var(--bs-body-font-family);
