@@ -9,7 +9,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 
 export class ModalComponent implements OnInit {
-  cheatSheet: string = '../assets/cheatsheet.png';
+  cheatSheet: string = '../assets/cheatsheet.jpg';
 
   constructor(public dialogRef: MatDialogRef<ModalComponent>) { }
 
