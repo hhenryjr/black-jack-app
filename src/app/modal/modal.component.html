@@ -1,1 +1,50 @@
-<p>modal works!</p>
+<!-- <div id="modal-content-wrapper">
+    <header id="modal-header">
+        <h1 id="modal-title">Are you sure you want to logout?</h1>
+    </header>
+    <section id="modal-body">
+        <p>If you logout bad things might happen, but don't mind me, I'm just the description in a modal...</p>
+    </section>
+    <footer id="modal-footer">
+        <button mat-raised-button id="modal-action-button" (click)="actionFunction()">Logout</button>
+        <button mat-raised-button id="modal-cancel-button" (click)="closeModal()">Go back</button>
+    </footer>
+</div> -->
+
+<!-- <div id="modal-content-wrapper">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div id="modal-header">
+          <h5 class="modal-title">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div id="modal-body">
+          <p>Modal body text goes here.</p>
+        </div>
+        <div id="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+<div class="modal-backdrop show"></div>
+<div class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cheat Sheet</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="closeModal()"></button>
+            </div>
+            <div class="modal-body">
+                <img [src]="cheatSheet">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    (click)="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

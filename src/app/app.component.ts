@@ -5,11 +5,13 @@ import { CardsService } from './cards/cards.service';
 import { Hand } from './hand/hand';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ThisReceiver } from '@angular/compiler';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ModalComponent } from './modal/modal.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component2.css']
+  // styleUrls: ['./app.component2.css']
 })
 export class AppComponent {
   playerCard: ICard = new Card();
@@ -31,7 +33,7 @@ export class AppComponent {
   bankAmount: number = 500;
   isInsured: boolean = false;
 
-  constructor(private cardsService: CardsService, public formBuilder: FormBuilder) { }
+  constructor(private cardsService: CardsService, public formBuilder: FormBuilder, public matDialog: MatDialog) { }
 
   ngOnInit(): void {
     this.clearTable();
@@ -498,5 +500,24 @@ export class AppComponent {
         this.reset();
       }, 500);
     }
+  }
+
+  openModal() {
+    const dialogConfig = new MatDialogConfig();
+    // The user can't close the dialog by clicking outside its body
+    dialogConfig.disableClose = false;
+    dialogConfig.id = "modal-component";
+    dialogConfig.height = '50px';
+    dialogConfig.width = '50px';
+    var dialogPosition = {
+      left: '55px',
+      top: '55px',
+    };
+    dialogConfig.position = dialogPosition;
+    //dialogConfig.panelClass = 'modal-fullscreen';
+    dialogConfig.hasBackdrop = true;
+
+    // https://material.angular.io/components/dialog/overview
+    const modalDialog = this.matDialog.open(ModalComponent/* , dialogConfig*/);
   }
 }

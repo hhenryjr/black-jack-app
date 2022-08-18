@@ -1,8 +1,6 @@
-<html>
 <div class="container" style="color:white;">
-  <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+  <header class="d-flex flex-wrap justify-content-center py-3">
     <h1>Black Jack 21</h1>
-    <hr>
     <div class="d-flex flex-wrap container justify-content-center">
       <div class="row text-center">
         <div class="col">
@@ -19,111 +17,109 @@
         </div>
       </div>
     </div>
-
   </header>
 </div>
-
-<body>
-  <div class="container justify-content-center">
-    <div class="wallet card">
-      <div class="card-body">
-        <h3>Dealer</h3>
-        <ul>
-          <div class="row">
-            <div *ngFor="let dealerCard of dealerHand.cards">
-              <img class="playing-card" *ngIf="!dealerCard.isHidden" [src]="dealerCard.src">
-              <img class="playing-card" *ngIf="dealerCard.isHidden"
-                src="https://js-css-poker.sourceforge.io/static/images/back.png">
-            </div>
-          </div>
-          <div class="row">
-            <p class="card-text">{{dealerHand.total}}</p>
-          </div>
-        </ul>
-      </div>
-      <div class="card-body">
-        <h3>Player</h3>
-        <ul *ngFor="let playerHand of playerHands">
-          <div class="row">
-            <div *ngFor="let playerCard of playerHand.cards">
-              <img class="playing-card" [src]="playerCard.src">
-            </div>
-          </div>
-          <div class="row">
-            <p class="card-text">{{playerHand.total}}</p>
-          </div>
-          <div class="container"></div>
-          <div class="row" style="color:yellow;">
-            <p class="card-text">{{playerHand.betAmount | currency}}</p>
-          </div>
-        </ul>
-      </div>
-      <div class="card-body" style="color:white"
-        *ngIf="showHitButton || showStandButton || showDoubleButton || showSplitButton || showSurrenderButton">
-        <div class="container">
-          <div class="row">
-            <a class="btn btn-link" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            <!-- <a class="btn btn-link" (click)="openCheatSheetModal()">-->
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                class="bi bi-info-circle-fill" viewBox="0 0 16 16">
-                <path
-                  d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
-              </svg> Show Cheat Sheet</a>
-          </div>
-        </div>
-        <a class="btn btn-primary" *ngIf="showHitButton" (click)="hit()">HIT</a>
-        <a class="btn btn-primary" *ngIf="showStandButton" (click)="stand()">STAND</a>
-        <a class="btn btn-primary" *ngIf="showDoubleButton" (click)="doubleDown()">DOUBLE DOWN</a>
-        <a class="btn btn-primary" *ngIf="showSplitButton" (click)="split()">SPLIT</a>
-        <a class="btn btn-danger" *ngIf="showSurrenderButton" (click)="surrender()">SURRENDER</a>
-      </div>
-    </div>
-    <div class="container"></div>
-    <div class="wallet card">
-      <div class="card-header text-center">
+<div class="container justify-content-center">
+  <div class="wallet card">
+    <div class="card-body">
+      <h3>Dealer</h3>
+      <ul>
         <div class="row">
-          <div class="col">
-            <p class="border-success">Wins: {{playerWins}}</p>
-          </div>
-          <div class="col">
-            <p class="border border-danger">Losses: {{playerLosses}}</p>
-          </div>
-          <div class="col">
-            <p class="border border-warning">Pushes: {{playerPushes}}</p>
+          <div *ngFor="let dealerCard of dealerHand.cards">
+            <img class="playing-card" *ngIf="!dealerCard.isHidden" [src]="dealerCard.src">
+            <img class="playing-card" *ngIf="dealerCard.isHidden"
+              src="https://js-css-poker.sourceforge.io/static/images/back.png">
           </div>
         </div>
-      </div>
-      <div class="card-body">
-        <h5 class="card-title">Bet (MIN: $5 - MAX: $500)</h5>
-        <p class="card-text" style="color:yellow;">{{betAmount | currency}}</p>
-      </div>
-      <div class="card-body">
-        <h5 class="card-title">Bank</h5>
-        <p class="card-text" style="color:yellow;">{{bankAmount | currency}}</p>
-      </div>
-      <div *ngIf="showDealButton" class="card-body">
-        <div class="container">
-          <img (click)="addMoney(1)" width="50px" height="50px" style="margin-left: 5px;"
-            src="https://js-css-poker.sourceforge.io/static/images/chip1.png">
-          <img (click)="addMoney(5)" width="50px" height="50px" style="margin-left: 5px;"
-            src="https://js-css-poker.sourceforge.io/static/images/chip5.png">
-          <img (click)="addMoney(25)" width="50px" height="50px" style="margin-left: 5px;"
-            src="https://js-css-poker.sourceforge.io/static/images/chip25.png">
-          <img (click)="addMoney(100)" width="50px" height="50px" style="margin-left: 5px;" src="../assets/chip100.png">
+        <div class="row">
+          <p class="card-text">{{dealerHand.total}}</p>
         </div>
-        <div class="container">
-          <button class="btn btn-primary btn-sm" *ngIf="bankAmount > 5 && betAmount < 500 && showDealButton"
-            (click)="addMoney(500)">MAX
-            BET</button>
+      </ul>
+    </div>
+    <div class="card-body">
+      <h3>Player</h3>
+      <ul *ngFor="let playerHand of playerHands">
+        <div class="row">
+          <div *ngFor="let playerCard of playerHand.cards">
+            <img class="playing-card" [src]="playerCard.src">
+          </div>
+        </div>
+        <div class="row">
+          <p class="card-text">{{playerHand.total}}</p>
+        </div>
+        <div class="container"></div>
+        <div class="row" style="color:yellow;">
+          <p class="card-text">{{playerHand.betAmount | currency}}</p>
+        </div>
+      </ul>
+    </div>
+    <div class="card-body" style="color:white"
+      *ngIf="showHitButton || showStandButton || showDoubleButton || showSplitButton || showSurrenderButton">
+      <div class="container">
+        <div class="row">
+          <a class="btn btn-link" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="openModal()">
+            <!-- <a class="btn btn-link" (click)="openCheatSheetModal()">-->
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+              class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+              <path
+                d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+            </svg> Show Cheat Sheet
+          </a>
         </div>
       </div>
-      <div *ngIf="betAmount >= 5 && showDealButton && betAmount > 0" class="card-body">
-        <button class="btn btn-primary btn-" (click)="deal()">DEAL</button>
-        <button class="btn btn-primary" *ngIf="showDealButton && betAmount > 0" (click)="removeMoney()">REMOVE</button>
+      <a class="btn btn-primary" *ngIf="showHitButton" (click)="hit()">HIT</a>
+      <a class="btn btn-primary" *ngIf="showStandButton" (click)="stand()">STAND</a>
+      <a class="btn btn-primary" *ngIf="showDoubleButton" (click)="doubleDown()">DOUBLE DOWN</a>
+      <a class="btn btn-primary" *ngIf="showSplitButton" (click)="split()">SPLIT</a>
+      <a class="btn btn-danger" *ngIf="showSurrenderButton" (click)="surrender()">SURRENDER</a>
+    </div>
+  </div>
+  <div class="container"></div>
+  <div class="wallet card">
+    <div class="card-body text-center">
+      <div class="row" style="color:white">
+        <div class="col">
+          <h5>Wins: {{playerWins}}</h5>
+        </div>
+        <div class="col">
+          <h5>Losses: {{playerLosses}}</h5>
+        </div>
+        <div class="col">
+          <h5>Pushes: {{playerPushes}}</h5>
+        </div>
       </div>
     </div>
+    <div class="card-body">
+      <h5 class="card-title">Bet (MIN: $5 - MAX: $500)</h5>
+      <p class="card-text" style="color:yellow;">{{betAmount | currency}}</p>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Bank</h5>
+      <p class="card-text" style="color:yellow;">{{bankAmount | currency}}</p>
+    </div>
+    <div *ngIf="showDealButton" class="card-body">
+      <div class="container">
+        <img (click)="addMoney(1)" width="50px" height="50px" style="margin-left: 5px;"
+          src="https://js-css-poker.sourceforge.io/static/images/chip1.png">
+        <img (click)="addMoney(5)" width="50px" height="50px" style="margin-left: 5px;"
+          src="https://js-css-poker.sourceforge.io/static/images/chip5.png">
+        <img (click)="addMoney(25)" width="50px" height="50px" style="margin-left: 5px;"
+          src="https://js-css-poker.sourceforge.io/static/images/chip25.png">
+        <img (click)="addMoney(100)" width="50px" height="50px" style="margin-left: 5px;" src="../assets/chip100.png">
+      </div>
+      <div class="container">
+        <button class="btn btn-primary btn-sm" *ngIf="bankAmount > 5 && betAmount < 500 && showDealButton"
+          (click)="addMoney(500)">MAX
+          BET</button>
+      </div>
+    </div>
+    <div *ngIf="betAmount >= 5 && showDealButton && betAmount > 0" class="card-body">
+      <button class="btn btn-primary btn-" (click)="deal()">DEAL</button>
+      <button class="btn btn-primary" *ngIf="showDealButton && betAmount > 0" (click)="removeMoney()">REMOVE</button>
+    </div>
+  </div>
 
-    <!-- <div *ngIf="showDealButton">
+  <!-- <div *ngIf="showDealButton">
     <h5>Number of decks</h5>
     <form [formGroup]="deckForm">
       <div>
@@ -131,9 +127,5 @@
       </div>
     </form>
   </div> -->
-  </div>
-</body>
-
-</html>
-
+</div>
 <router-outlet></router-outlet>
