@@ -31,7 +31,7 @@
               src="https://js-css-poker.sourceforge.io/static/images/back.png">
           </div>
         </div>
-        <div class="row">
+        <div class="row" style="color:white;">
           <p class="card-text">{{dealerHand.total}}</p>
         </div>
       </ul>
@@ -44,7 +44,7 @@
             <img class="playing-card" [src]="playerCard.src">
           </div>
         </div>
-        <div class="row">
+        <div class="row" style="color:white;">
           <p class="card-text">{{playerHand.total}}</p>
         </div>
         <div class="container"></div>
@@ -53,11 +53,11 @@
         </div>
       </ul>
     </div>
-    <div class="card-body" style="color:white"
+    <div class="card-body"
       *ngIf="showHitButton || showStandButton || showDoubleButton || showSplitButton || showSurrenderButton">
       <div class="container">
         <div class="row">
-          <a class="btn btn-link" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="openModal()">
+          <a class="btn btn-link" style="color:white" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="openModal()">
             <!-- <a class="btn btn-link" (click)="openCheatSheetModal()">-->
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
               class="bi bi-info-circle-fill" viewBox="0 0 16 16">
@@ -67,14 +67,18 @@
           </a>
         </div>
       </div>
-      <a class="btn btn-primary" *ngIf="showHitButton" (click)="hit()">HIT</a>
-      <a class="btn btn-primary" *ngIf="showStandButton" (click)="stand()">STAND</a>
-      <a class="btn btn-primary" *ngIf="showDoubleButton" (click)="doubleDown()">DOUBLE DOWN</a>
-      <a class="btn btn-primary" *ngIf="showSplitButton" (click)="split()">SPLIT</a>
-      <a class="btn btn-danger" *ngIf="showSurrenderButton" (click)="surrender()">SURRENDER</a>
+      <div class="container">
+        <div class="d-grid gap-2 d-md-block">
+          <a class="btn btn-primary" *ngIf="showHitButton" (click)="hit()">HIT</a>
+          <a class="btn btn-primary" style="margin-left: 5px;" *ngIf="showStandButton" (click)="stand()">STAND</a>
+          <a class="btn btn-primary" style="margin-left: 5px;" *ngIf="showDoubleButton" (click)="doubleDown()">DOUBLE DOWN</a>
+          <a class="btn btn-primary" style="margin-left: 5px;" *ngIf="showSplitButton" (click)="split()">SPLIT</a>
+          <a class="btn btn-danger" style="margin-left: 5px;" *ngIf="showSurrenderButton" (click)="surrender()">SURRENDER</a>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="container"></div>
+  <div class="container" style="margin-top: 25px; margin-bottom:25px"></div>
   <div class="wallet card">
     <div class="card-body text-center">
       <div class="row" style="color:white">
@@ -99,23 +103,29 @@
     </div>
     <div *ngIf="showDealButton" class="card-body">
       <div class="container">
-        <img (click)="addMoney(1)" width="50px" height="50px" style="margin-left: 5px;"
-          src="https://js-css-poker.sourceforge.io/static/images/chip1.png">
-        <img (click)="addMoney(5)" width="50px" height="50px" style="margin-left: 5px;"
-          src="https://js-css-poker.sourceforge.io/static/images/chip5.png">
-        <img (click)="addMoney(25)" width="50px" height="50px" style="margin-left: 5px;"
-          src="https://js-css-poker.sourceforge.io/static/images/chip25.png">
-        <img (click)="addMoney(100)" width="50px" height="50px" style="margin-left: 5px;" src="../assets/chip100.png">
+        <div class="row">
+          <img (click)="addMoney(1)" width="50px" height="50px"
+            src="https://js-css-poker.sourceforge.io/static/images/chip1.png">
+          <img (click)="addMoney(5)" width="50px" height="50px" style="margin-left: 5px;"
+            src="https://js-css-poker.sourceforge.io/static/images/chip5.png">
+          <img (click)="addMoney(25)" width="50px" height="50px" style="margin-left: 5px;"
+            src="https://js-css-poker.sourceforge.io/static/images/chip25.png">
+          <img (click)="addMoney(100)" width="50px" height="50px" style="margin-left: 5px;" src="../assets/chip100.png">
+        </div>
       </div>
-      <div class="container">
+      <div class="container" style="margin-top: 10px; margin-bottom:10px"></div>
+      <div class="d-grid gap-2 d-md-block">
         <button class="btn btn-primary btn-sm" *ngIf="bankAmount > 5 && betAmount < 500 && showDealButton"
           (click)="addMoney(500)">MAX
           BET</button>
       </div>
     </div>
     <div *ngIf="betAmount >= 5 && showDealButton && betAmount > 0" class="card-body">
-      <button class="btn btn-primary btn-" (click)="deal()">DEAL</button>
-      <button class="btn btn-primary" *ngIf="showDealButton && betAmount > 0" (click)="removeMoney()">REMOVE</button>
+      <div class="d-grid gap-2 d-md-block">
+        <button class="btn btn-primary" (click)="deal()">DEAL</button>
+        <button class="btn btn-primary" style="margin-left: 5px;" *ngIf="showDealButton && betAmount > 0"
+          (click)="removeMoney()">REMOVE</button>
+      </div>
     </div>
   </div>
 
