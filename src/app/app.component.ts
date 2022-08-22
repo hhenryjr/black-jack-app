@@ -7,6 +7,7 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angul
 import { ThisReceiver } from '@angular/compiler';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CheatSheetModalComponent } from './cheat-sheet-modal/cheat-sheet-modal.component';
+import { SideBetModalComponent } from './side-bet-modal/side-bet-modal.component';
 
 @Component({
   selector: 'app-root',
@@ -518,6 +519,10 @@ export class AppComponent {
     dialogConfig.hasBackdrop = true;
 
     // https://material.angular.io/components/dialog/overview
-    const modalDialog = this.matDialog.open(CheatSheetModalComponent/* , dialogConfig*/);
+    this.matDialog.open(CheatSheetModalComponent/* , dialogConfig*/);
+  }
+
+  openSideBetModal(){
+    this.matDialog.open(SideBetModalComponent);
   }
 }

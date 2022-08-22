@@ -1,1 +1,141 @@
-<p>side-bet-modal works!</p>
+<div class="modal-backdrop show"></div>
+<div class="modal text-center" tabindex="-1">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Side Bets</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                (click)="closeModal()"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="col">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <h5 class="card-title">Buster Black Jack</h5>
+                      <p class="card-text">Dealer must bust. The more cards the dealer busts with, the more the player is paid.</p>
+                      <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th scope="col">Cards</th>
+                            <th scope="col">Payout Ratio</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">3</th>
+                            <td>1:1</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">4</th>
+                            <td>2:1</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">5</th>
+                            <td>10:1</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">6</th>
+                            <td>20:1</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">7 or more</th>
+                            <td>100:1</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <input type="number" max="25">
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <h5 class="card-title">Fortune Black Jack</h5>
+                      <p class="card-text">
+                        The total of the player's first two cards and the dealer's up card must be between 19 and 21.
+                      </p>
+                      <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th scope="col">Cards</th>
+                            <th scope="col">Payout Ratio</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">Any 19</th>
+                            <td>1:1</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Any 20</th>
+                            <td>2:1</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Unsuited 21</th>
+                            <td>5:1</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Suited 21</th>
+                            <td>10:1</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Unsuited 6-7-8</th>
+                            <td>25:1</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Any 7-7-7</th>
+                            <td>50:1</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Suited 6-7-8</th>
+                            <td>100:1</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <input type="number" max="25">
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <h5 class="card-title">Au Pair Black Jack</h5>
+                      <p class="card-text">Player must get black jack with a special card combo.</p>
+                      <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th scope="col">Pair</th>
+                            <th scope="col">Payout Ratio</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">Any Pair</th>
+                            <td>1:1</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Colored Pair (Same color, mixed suit)</th>
+                            <td>2:1</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Suited Pair (Same suit, mixed color)</th>
+                            <td>25:1</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Pair of Spades</th>
+                            <td>50:1</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <input type="number" max="25">
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                (click)="closeModal()">Close</button>
+        </div>
+    </div>
+</div>
