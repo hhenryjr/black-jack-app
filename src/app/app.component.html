@@ -27,8 +27,7 @@
         <div class="row">
           <div *ngFor="let dealerCard of dealerHand.cards">
             <img class="playing-card" *ngIf="!dealerCard.isHidden" [src]="dealerCard.src">
-            <img class="playing-card" *ngIf="dealerCard.isHidden"
-              src="https://js-css-poker.sourceforge.io/static/images/back.png">
+            <img class="playing-card" *ngIf="dealerCard.isHidden" src="../assets/cards/back.png">
           </div>
         </div>
         <div class="row" style="color:white;">
@@ -57,8 +56,8 @@
       *ngIf="showHitButton || showStandButton || showDoubleButton || showSplitButton || showSurrenderButton">
       <div class="container">
         <div class="row">
-          <a class="btn btn-link" style="color:white" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="openModal()">
-            <!-- <a class="btn btn-link" (click)="openCheatSheetModal()">-->
+          <a class="btn btn-link" style="color:white" data-bs-toggle="modal" data-bs-target="#exampleModal"
+            (click)="openCheatSheetModal()">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
               class="bi bi-info-circle-fill" viewBox="0 0 16 16">
               <path
@@ -71,9 +70,11 @@
         <div class="d-grid gap-2 d-md-block">
           <a class="btn btn-primary" *ngIf="showHitButton" (click)="hit()">HIT</a>
           <a class="btn btn-primary" style="margin-left: 5px;" *ngIf="showStandButton" (click)="stand()">STAND</a>
-          <a class="btn btn-primary" style="margin-left: 5px;" *ngIf="showDoubleButton" (click)="doubleDown()">DOUBLE DOWN</a>
+          <a class="btn btn-primary" style="margin-left: 5px;" *ngIf="showDoubleButton" (click)="doubleDown()">DOUBLE
+            DOWN</a>
           <a class="btn btn-primary" style="margin-left: 5px;" *ngIf="showSplitButton" (click)="split()">SPLIT</a>
-          <a class="btn btn-danger" style="margin-left: 5px;" *ngIf="showSurrenderButton" (click)="surrender()">SURRENDER</a>
+          <a class="btn btn-danger" style="margin-left: 5px;" *ngIf="showSurrenderButton"
+            (click)="surrender()">SURRENDER</a>
         </div>
       </div>
     </div>
@@ -104,13 +105,13 @@
     <div *ngIf="showDealButton" class="card-body">
       <div class="container">
         <div class="row">
-          <img (click)="addMoney(1)" width="50px" height="50px"
-            src="https://js-css-poker.sourceforge.io/static/images/chip1.png">
+          <img (click)="addMoney(1)" width="50px" height="50px" src="../assets/chips/chip1.png">
           <img (click)="addMoney(5)" width="50px" height="50px" style="margin-left: 5px;"
-            src="https://js-css-poker.sourceforge.io/static/images/chip5.png">
+            src="../assets/chips/chip5.png">
           <img (click)="addMoney(25)" width="50px" height="50px" style="margin-left: 5px;"
-            src="https://js-css-poker.sourceforge.io/static/images/chip25.png">
-          <img (click)="addMoney(100)" width="50px" height="50px" style="margin-left: 5px;" src="../assets/chip100.png">
+            src="../assets/chips/chip25.png">
+          <img (click)="addMoney(100)" width="50px" height="50px" style="margin-left: 5px;"
+            src="../assets/chips/chip100.png">
         </div>
       </div>
       <div class="container" style="margin-top: 10px; margin-bottom:10px"></div>

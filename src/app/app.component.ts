@@ -6,7 +6,7 @@ import { Hand } from './hand/hand';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ThisReceiver } from '@angular/compiler';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ModalComponent } from './modal/modal.component';
+import { CheatSheetModalComponent } from './cheat-sheet-modal/cheat-sheet-modal.component';
 
 @Component({
   selector: 'app-root',
@@ -502,7 +502,7 @@ export class AppComponent {
     }
   }
 
-  openModal() {
+  openCheatSheetModal() {
     const dialogConfig = new MatDialogConfig();
     // The user can't close the dialog by clicking outside its body
     dialogConfig.disableClose = false;
@@ -518,6 +518,6 @@ export class AppComponent {
     dialogConfig.hasBackdrop = true;
 
     // https://material.angular.io/components/dialog/overview
-    const modalDialog = this.matDialog.open(ModalComponent/* , dialogConfig*/);
+    const modalDialog = this.matDialog.open(CheatSheetModalComponent/* , dialogConfig*/);
   }
 }

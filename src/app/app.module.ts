@@ -8,16 +8,18 @@ import { CardsComponent } from './cards/cards.component';
 import { CardsService } from './cards/cards.service';
 import { PlayerComponent } from './player/player.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ModalComponent } from './modal/modal.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
+import { SideBetModalComponent } from './side-bet-modal/side-bet-modal.component';
+import { CheatSheetModalComponent } from './cheat-sheet-modal/cheat-sheet-modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CardsComponent,
     PlayerComponent,
-    ModalComponent
+    SideBetModalComponent,
+    CheatSheetModalComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +31,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDialogModule
   ],
   providers: [CardsService],
-  bootstrap: [AppComponent],
-  entryComponents: [ModalComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
