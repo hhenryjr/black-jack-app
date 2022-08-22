@@ -68,12 +68,12 @@
       </div>
       <div class="container">
         <div class="d-grid gap-2 d-md-block">
-          <a class="btn btn-primary" *ngIf="showHitButton" (click)="hit()">HIT</a>
-          <a class="btn btn-primary" style="margin-left: 5px;" *ngIf="showStandButton" (click)="stand()">STAND</a>
-          <a class="btn btn-primary" style="margin-left: 5px;" *ngIf="showDoubleButton" (click)="doubleDown()">DOUBLE
+          <a class="btn btn-primary" style="margin-right: 5px;" *ngIf="showHitButton" (click)="hit()">HIT</a>
+          <a class="btn btn-primary" style="margin-right: 5px;" *ngIf="showStandButton" (click)="stand()">STAND</a>
+          <a class="btn btn-primary" style="margin-right: 5px;" *ngIf="showDoubleButton" (click)="doubleDown()">DOUBLE
             DOWN</a>
-          <a class="btn btn-primary" style="margin-left: 5px;" *ngIf="showSplitButton" (click)="split()">SPLIT</a>
-          <a class="btn btn-danger" style="margin-left: 5px;" *ngIf="showSurrenderButton"
+          <a class="btn btn-primary" style="margin-right: 5px;" *ngIf="showSplitButton" (click)="split()">SPLIT</a>
+          <a class="btn btn-danger" style="margin-right: 5px;" *ngIf="showSurrenderButton"
             (click)="surrender()">SURRENDER</a>
         </div>
       </div>
@@ -105,12 +105,13 @@
     <div *ngIf="showDealButton" class="card-body">
       <div class="container">
         <div class="row">
-          <img (click)="addMoney(1)" width="50px" height="50px" src="../assets/chips/chip1.png">
-          <img (click)="addMoney(5)" width="50px" height="50px" style="margin-left: 5px;"
+          <img (click)="addMoney(1)" width="50px" height="50px" src="../assets/chips/chip1.png"
+            style="margin-right: 5px;">
+          <img (click)="addMoney(5)" width="50px" height="50px" style="margin-right: 5px;"
             src="../assets/chips/chip5.png">
-          <img (click)="addMoney(25)" width="50px" height="50px" style="margin-left: 5px;"
+          <img (click)="addMoney(25)" width="50px" height="50px" style="margin-right: 5px;"
             src="../assets/chips/chip25.png">
-          <img (click)="addMoney(100)" width="50px" height="50px" style="margin-left: 5px;"
+          <img (click)="addMoney(100)" width="50px" height="50px" style="margin-right: 5px;"
             src="../assets/chips/chip100.png">
         </div>
       </div>
@@ -122,12 +123,10 @@
       </div>
     </div>
     <div *ngIf="betAmount >= 5 && showDealButton && betAmount > 0" class="card-body">
-      <div class="d-grid gap-2 d-md-block">
-        <button class="btn btn-primary" (click)="deal()">DEAL</button>
-        <button class="btn btn-primary" style="margin-left: 5px;" *ngIf="showDealButton && betAmount > 0"
-          (click)="removeMoney()">REMOVE</button>
-        <button class="btn btn-primary" (click)="openSideBetModal()">SIDE BETS</button>
-      </div>
+      <button class="btn btn-primary" (click)="deal()" style="margin-right: 5px;">DEAL</button>
+      <button class="btn btn-primary" *ngIf="showDealButton && betAmount > 0" style="margin-right: 5px;"
+        (click)="removeMoney()">REMOVE</button>
+      <button class="btn btn-primary" (click)="openSideBetModal()" style="margin-right: 5px;">SIDE BETS</button>
     </div>
   </div>
 
@@ -140,4 +139,5 @@
     </form>
   </div> -->
 </div>
+
 <router-outlet></router-outlet>

@@ -5967,7 +5967,8 @@ textarea.form-control-lg {
     --bs-modal-footer-border-width: 1px;
     position: fixed;
     top: 0;
-    left: 35%;
+    left: 25%;
+    right: 25%;
     z-index: var(--bs-modal-zindex);
     width: auto;
     height: auto;
