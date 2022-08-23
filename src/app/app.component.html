@@ -126,7 +126,8 @@
       <button class="btn btn-primary" (click)="deal()" style="margin-right: 5px;">DEAL</button>
       <button class="btn btn-primary" *ngIf="showDealButton && betAmount > 0" style="margin-right: 5px;"
         (click)="removeMoney()">REMOVE</button>
-      <button class="btn btn-primary" (click)="openSideBetModal()" style="margin-right: 5px;">SIDE BETS</button>
+      <button class="btn btn-primary" (click)="openSideBetModal()" style="margin-right: 5px;">SIDE BETS<span
+          *ngIf="numberOfSideBets > 0">: {{numberOfSideBets}}</span></button>
     </div>
   </div>
 

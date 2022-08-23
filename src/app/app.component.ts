@@ -33,6 +33,10 @@ export class AppComponent {
   betAmount: number = 0;
   bankAmount: number = 500;
   isInsured: boolean = false;
+  busterBetAmount: number = 0;
+  fortuneBetAmount: number = 0;
+  aupairBetAmount: number = 0;
+  numberOfSideBets: number = 0;
 
   constructor(private cardsService: CardsService, public formBuilder: FormBuilder, public matDialog: MatDialog) { }
 
@@ -503,26 +507,24 @@ export class AppComponent {
     }
   }
 
+  /* MODALS */
   openCheatSheetModal() {
-    const dialogConfig = new MatDialogConfig();
-    // The user can't close the dialog by clicking outside its body
-    dialogConfig.disableClose = false;
-    dialogConfig.id = "modal-component";
-    dialogConfig.height = '50px';
-    dialogConfig.width = '50px';
-    var dialogPosition = {
-      left: '55px',
-      top: '55px',
-    };
-    dialogConfig.position = dialogPosition;
-    //dialogConfig.panelClass = 'modal-fullscreen';
-    dialogConfig.hasBackdrop = true;
-
-    // https://material.angular.io/components/dialog/overview
-    this.matDialog.open(CheatSheetModalComponent/* , dialogConfig*/);
+    this.matDialog.open(CheatSheetModalComponent);
   }
 
-  openSideBetModal(){
-    this.matDialog.open(SideBetModalComponent);
+  openSideBetModal() {
+    const dialogRef = this.matDialog.open(SideBetModalComponent);
+    dialogRef.componentInstance.busterBetAmount = this.busterBetAmount;
+    dialogRef.componentInstance.fortuneBetAmount = this.fortuneBetAmount;
+    dialogRef.componentInstance.aupairBetAmount = this.aupairBetAmount;
+    dialogRef.afterClosed().subscribe(result => {
+      this.numberOfSideBets = 0;
+      this.busterBetAmount = result.data.busterBetAmount;
+      if (this.busterBetAmount > 0) this.numberOfSideBets++;
+      this.fortuneBetAmount = result.data.fortuneBetAmount;
+      if (this.fortuneBetAmount > 0) this.numberOfSideBets++;
+      this.aupairBetAmount = result.data.aupairBetAmount;
+      if (this.aupairBetAmount > 0) this.numberOfSideBets++;
+    });
   }
 }

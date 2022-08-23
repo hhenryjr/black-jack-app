@@ -46,7 +46,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            $<input style="width:40px" type="number" max="25">
+                            $<input [(ngModel)]="busterBetAmount" style="width:40px" type="number" min="0" max="25">
                         </div>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            $<input style="width:40px" type="number" max="25">
+                            $<input [(ngModel)]="fortuneBetAmount" style="width:40px" type="number" min="0" max="25">
                         </div>
                     </div>
                 </div>
@@ -131,7 +131,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            $<input style="width:40px" type="number" max="25">
+                            $<input [(ngModel)]="aupairBetAmount" style="width:40px" type="number" min="0" max="25">
                         </div>
                     </div>
                 </div>
@@ -140,7 +140,8 @@
         <div class="modal-footer text-center">
             <div class="container">
                 <p>Choose any side bet and place any bet amount between $1 and $25.</p>
-                <button type="button" class="btn btn-primary" style="margin-right: 5px;" data-bs-dismiss="modal">Add
+                <button type="button" class="btn btn-primary" style="margin-right: 5px;" data-bs-dismiss="modal"
+                (click)="addSideBets()">Add
                     Side Bet(s)</button>
                 <button type="button" class="btn btn-secondary" style="margin-right: 5px;" data-bs-dismiss="modal"
                     (click)="closeModal()">Close</button>
