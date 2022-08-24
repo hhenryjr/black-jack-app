@@ -33,6 +33,7 @@ export class AppComponent {
   betAmount: number = 0;
   bankAmount: number = 500;
   isInsured: boolean = false;
+  insuranceAmount: number = 0;
   busterBetAmount: number = 0;
   fortuneBetAmount: number = 0;
   aupairBetAmount: number = 0;
@@ -67,16 +68,13 @@ export class AppComponent {
         this.betAmount = this.bankAmount;
         this.bankAmount -= this.bankAmount;
       }
-
     }
-    else if (this.betAmount + amount > 500)
-      alert("You have reached the maximum bet!");
+    else if (this.betAmount + amount > 500) alert("You have reached the maximum bet!");
     else if (this.bankAmount >= amount) {
       this.betAmount += amount;
       this.bankAmount -= amount;
     }
-    else if (this.bankAmount < amount)
-      alert("You don't have enough money!");
+    else if (this.bankAmount < amount) alert("You don't have enough money!");
   }
 
   removeMoney() {
@@ -103,7 +101,9 @@ export class AppComponent {
     setTimeout(() => {
       this.dealerHand.cards.push(this.cardsService.draw());
       this.dealerHand.calculate();
-      this.checkHands();
+      setTimeout(() => {
+        this.checkHands();
+      }, 500);
     }, 1500)
   }
 
@@ -112,28 +112,15 @@ export class AppComponent {
     this.showHitButton = true;
     this.showStandButton = true;
     this.showSurrenderButton = true;
-    var insuranceAmount = 0;
+    this.insuranceAmount = 0;
+
+    // Checks for Fortune Black Jack bet
+    if (this.fortuneBetAmount > 0) this.checkFortune();
 
     // Offers insurance if dealer shows an Ace
-    if (this.dealerHand.cards[1].name === "A") {
-      this.isInsured = (this.playerHands[this.handCounter].total == 21) ?
-        confirm("Do you want even money?") : confirm("Do you want insurance?");
-      insuranceAmount = this.playerHands[this.handCounter].betAmount / 2;
-      if (this.isInsured) {
-        if (this.bankAmount >= insuranceAmount) {
-          if (this.playerHands[this.handCounter].total == 21) {
-            this.bankAmount += (this.playerHands[this.handCounter].betAmount * 2);
-            this.playerHands[this.handCounter].betAmount = 0;
-          }
-          else {
-            this.playerHands[this.handCounter].betAmount += insuranceAmount;
-            this.bankAmount -= insuranceAmount;
-          }
-        }
-        else alert("You don't have enough money!");
-      }
-    }
+    if (this.dealerHand.cards[1].name === "A") this.checkInsurance();
 
+    // Both player and dealer have black jack
     if (this.dealerHand.total + this.dealerHand.cards[0].value == 21 &&
       this.dealerHand.total + this.dealerHand.cards[0].value == this.playerHands[this.handCounter].total) {
       this.dealerHand.cards[0].isHidden = false;
@@ -149,10 +136,15 @@ export class AppComponent {
           this.bankAmount += this.betAmount;
           this.playerHands[this.handCounter].betAmount = 0;
           this.playerPushes++;
+
+          // Checks for Buster Black Jack bet
+          if (this.busterBetAmount > 0) this.checkBuster();
         }
         this.reset();
       }, 500);
     }
+
+    // Dealer wins black jack
     else if (this.dealerHand.total + this.dealerHand.cards[0].value == 21 &&
       this.dealerHand.total + this.dealerHand.cards[0].value > this.playerHands[this.handCounter].total) {
       this.dealerHand.cards[0].isHidden = false;
@@ -164,12 +156,17 @@ export class AppComponent {
         this.showStandButton = false;
         this.showSurrenderButton = false;
         alert("BLACKJACK! Dealer wins!");
-        if (this.isInsured) this.bankAmount += (insuranceAmount * 2);
+        if (this.isInsured) this.bankAmount += (this.insuranceAmount * 2);
         this.playerHands[this.handCounter].betAmount = 0;
         if (!this.isInsured) this.playerLosses++;
+
+        // Checks for Buster Black Jack bet
+        if (this.busterBetAmount > 0) this.checkBuster();
         this.reset();
       }, 500);
     }
+
+    // Player wins black jack
     else if (this.playerHands[this.handCounter].total == 21) {
       setTimeout(() => {
         this.showDoubleButton = false;
@@ -180,18 +177,29 @@ export class AppComponent {
         if (!this.isInsured) {
           alert("BLACKJACK! You win!");
           this.bankAmount += (this.playerHands[this.handCounter].betAmount + (this.playerHands[this.handCounter].betAmount * 1.5));
+
+          // Checks for Au Pair Black Jack bet
+          if (this.aupairBetAmount > 0) this.checkAuPair();
+
           this.playerHands[this.handCounter].betAmount = 0;
           this.playerWins++;
         }
         this.dealerHand.cards[0].isHidden = false;
         this.dealerHand.calculate();
-        this.reset();
+
+        // Checks for Buster Black Jack bet
+        if (this.busterBetAmount > 0) this.stand();
+        else this.reset();
       }, 500);
     }
     else if (this.isInsured) {
       alert("Dealer does not have blackjack!");
-      this.playerHands[this.handCounter].betAmount -= insuranceAmount;
+      this.playerHands[this.handCounter].betAmount -= this.insuranceAmount;
     }
+
+    // Checks for Au Pair Black Jack bet
+    if (this.aupairBetAmount > 0) this.checkAuPair();
+
     if (this.playerHands[this.handCounter].cards[0].value === this.playerHands[this.handCounter].cards[1].value)
       this.showSplitButton = true;
   }
@@ -353,7 +361,10 @@ export class AppComponent {
           alert("You have surrendered!");
           this.playerLosses++;
           this.bankAmount += this.playerHands[this.handCounter].betAmount;
-          this.reset();
+
+          // Checks for Buster Black Jack bet
+          if (this.busterBetAmount > 0) this.stand();
+          else this.reset();
         }, 500);
       }, 500);
     }
@@ -404,14 +415,17 @@ export class AppComponent {
   bust() {
     setTimeout(() => {
       alert("BUST! Player loses.");
-      this.playerHands[this.handCounter].betAmount = 0;
-      this.betAmount = 0;
-      this.playerLosses++;
-      this.reset();
       this.dealerHand.cards[0].isHidden = false;
       this.dealerHand.calculate();
       var aces = this.dealerHand.cards.filter(x => x.name === "A");
       if (aces.length == 2) this.dealerHand.total -= 10;
+      this.playerHands[this.handCounter].betAmount = 0;
+      this.betAmount = 0;
+      this.playerLosses++;
+
+      // Checks for Buster Black Jack bet
+      if (this.busterBetAmount > 0) this.compare(this.playerHands[this.handCounter]);
+      else this.reset();
     }, 500);
   }
 
@@ -427,6 +441,10 @@ export class AppComponent {
       this.isInsured = false;
       this.handCounter = 0;
       this.betAmount = 0;
+      this.aupairBetAmount = 0;
+      this.busterBetAmount = 0;
+      this.fortuneBetAmount = 0;
+      this.numberOfSideBets = 0;
     }, 500);
   }
 
@@ -457,7 +475,7 @@ export class AppComponent {
 
     // Dealer must hit on soft 17
     if ((this.dealerHand.total < 17 || (this.dealerHand.total == 17 && aces && aces.length > 0 && this.isSubtractingTen)) &&
-      bustedHands !== this.playerHands.length) {
+      (bustedHands !== this.playerHands.length || (this.busterBetAmount > 0 && this.dealerHand.total < 17))) {
       var card = this.cardsService.draw();
       if (this.dealerHand.total + card.value > 21) {
         if (card.name === "A") {
@@ -485,25 +503,172 @@ export class AppComponent {
     else {
       setTimeout(() => {
         if ((this.dealerHand.total > playerHand.total && this.dealerHand.total <= 21) || playerHand.total > 21) {
-          alert("Dealer wins!");
-          if (playerHand.total < 21) playerHand.betAmount = 0;
-          this.playerLosses++;
+          if (this.dealerHand.total <= 21) {
+            alert("Dealer wins!");
+            if (playerHand.total < 21) playerHand.betAmount = 0;
+            this.playerLosses++;
+          }
+          // Checks for Buster Black Jack bet
+          if (this.busterBetAmount > 0) this.checkBuster();
         }
-        else if (this.dealerHand.total < playerHand.total ||
+        else if (this.dealerHand.total < playerHand.total || this.dealerHand.total > 21 ||
           (this.dealerHand.total > playerHand.total && this.dealerHand.total > 21)) {
-          alert("Player wins!");
-          this.bankAmount += (playerHand.betAmount * 2);
-          playerHand.betAmount = 0;
-          this.playerWins++;
+          if (playerHand.total <= 21) {
+            alert("Player wins!");
+            this.bankAmount += (playerHand.betAmount * 2);
+            playerHand.betAmount = 0;
+            this.playerWins++;
+          }
+
+          // Checks for Buster Black Jack bet
+          if (this.busterBetAmount > 0) this.checkBuster();
         }
         else {
           alert("PUSH!");
           this.playerPushes++;
           this.bankAmount += this.betAmount;
           playerHand.betAmount = 0;
+
+          // Checks for Buster Black Jack bet
+          if (this.busterBetAmount > 0) this.checkBuster();
         };
         this.reset();
       }, 500);
+    }
+  }
+
+  /* SIDE BETS */
+  checkInsurance() {
+    this.isInsured = (this.playerHands[this.handCounter].total == 21) ?
+      confirm("Do you want even money?") : confirm("Do you want insurance?");
+    this.insuranceAmount = this.playerHands[this.handCounter].betAmount / 2;
+    if (this.isInsured) {
+      if (this.bankAmount >= this.insuranceAmount) {
+        if (this.playerHands[this.handCounter].total == 21) {
+          this.bankAmount += (this.playerHands[this.handCounter].betAmount * 2);
+          this.playerHands[this.handCounter].betAmount = 0;
+        }
+        else {
+          this.playerHands[this.handCounter].betAmount += this.insuranceAmount;
+          this.bankAmount -= this.insuranceAmount;
+        }
+      }
+      else alert("You don't have enough money!");
+    }
+  }
+
+  checkFortune() {
+    var sideBetCards: ICard[] = [];
+    sideBetCards.push(...this.playerHands[this.handCounter].cards);
+    sideBetCards.push(this.dealerHand.cards[1]);
+    var cardValues = sideBetCards.map(card => card.value);
+    var hasSix = cardValues.includes(6);
+    var hasSeven = cardValues.includes(7);
+    var hasEight = cardValues.includes(8);
+    var numberOfSevens = cardValues.filter(card => card == 7);
+    var cardSuits = sideBetCards.map(card => card.suit);
+    var cardValueSum = cardValues.reduce((a, b) => a + b, 0);
+    if (cardValueSum == 31) cardValueSum -= 10;
+    var isSuited = true;
+    for (var i = 1; i < cardSuits.length; i++) {
+      if (cardSuits[0] === cardSuits[i]) continue;
+      else {
+        isSuited = false;
+        break;
+      }
+    }
+
+    if (hasSix && hasSeven && hasEight) {
+      if (isSuited) this.fortuneBetAmount *= 100;
+      else this.fortuneBetAmount *= 25;
+      alert("You've won $" + this.fortuneBetAmount + " from Fortune Black Jack!");
+      this.bankAmount += this.fortuneBetAmount;
+    }
+    else if (numberOfSevens.length == 3) {
+      this.fortuneBetAmount *= 50;
+      alert("You've won $" + this.fortuneBetAmount + " from Fortune Black Jack!");
+      this.bankAmount += this.fortuneBetAmount;
+    }
+    else if (cardValueSum == 21) {
+      if (isSuited) this.fortuneBetAmount *= 10;
+      else this.fortuneBetAmount *= 5;
+      alert("You've won $" + this.fortuneBetAmount + " from Fortune Black Jack!");
+      this.bankAmount += this.fortuneBetAmount;
+    }
+    else if (cardValueSum == 20) {
+      this.fortuneBetAmount *= 2;
+      alert("You've won $" + this.fortuneBetAmount + " from Fortune Black Jack!");
+      this.bankAmount += this.fortuneBetAmount;
+    }
+    else if (cardValueSum == 19) {
+      this.fortuneBetAmount = this.fortuneBetAmount;
+      alert("You've won $" + this.fortuneBetAmount + " from Fortune Black Jack!");
+      this.bankAmount += this.fortuneBetAmount;
+    }
+    else {
+      alert("You've lost $" + this.fortuneBetAmount + " from Fortune Black Jack!");
+      this.bankAmount -= this.fortuneBetAmount;
+    }
+  }
+
+  checkAuPair() {
+    var sideBetCards: ICard[] = [];
+    sideBetCards.push(...this.playerHands[this.handCounter].cards);
+    sideBetCards.push(this.dealerHand.cards[1]);
+    var cardSuits = sideBetCards.map(card => card.suit);
+    var cardColors = sideBetCards.map(card => card.color);
+    var cardSpades = cardSuits.filter(card => card == "spades");
+    if (this.playerHands[this.handCounter].total != 21) {
+      alert("You've lost $" + this.aupairBetAmount + " from Au Pair Black Jack!");
+      this.bankAmount -= this.aupairBetAmount;
+    }
+    else if (cardSpades.length == 2) {
+      this.aupairBetAmount *= 50;
+      alert("You've won $" + this.aupairBetAmount + " from Au Pair Black Jack!");
+      this.bankAmount += this.aupairBetAmount;
+    }
+    else if (cardSuits[0] === cardSuits[1]) {
+      this.aupairBetAmount *= 25;
+      alert("You've won $" + this.aupairBetAmount + " from Au Pair Black Jack!");
+      this.bankAmount += this.aupairBetAmount;
+    }
+    else if (cardColors[0] === cardColors[1]) {
+      this.aupairBetAmount *= 2;
+      alert("You've won $" + this.aupairBetAmount + " from Au Pair Black Jack!");
+      this.bankAmount += this.aupairBetAmount;
+    }
+    else {
+      this.aupairBetAmount = this.aupairBetAmount;
+      alert("You've won $" + this.aupairBetAmount + " from Au Pair Black Jack!");
+      this.bankAmount += this.aupairBetAmount;
+    }
+  }
+
+  checkBuster() {
+    if (this.dealerHand.total > 21) {
+      switch (this.dealerHand.cards.length) {
+        case 3:
+          this.busterBetAmount = this.busterBetAmount;
+          break;
+        case 4:
+          this.busterBetAmount *= 2;
+          break;
+        case 5:
+          this.busterBetAmount *= 10;
+          break;
+        case 6:
+          this.busterBetAmount *= 20;
+          break;
+        case 7:
+          this.busterBetAmount *= 100;
+          break;
+      }
+      alert("You've won $" + this.busterBetAmount + " from Buster Black Jack!");
+      this.bankAmount += this.busterBetAmount;
+    }
+    else {
+      alert("You've lost $" + this.busterBetAmount + " from Buster Black Jack!");
+      this.bankAmount -= this.busterBetAmount;
     }
   }
 
@@ -514,6 +679,7 @@ export class AppComponent {
 
   openSideBetModal() {
     const dialogRef = this.matDialog.open(SideBetModalComponent);
+    dialogRef.componentInstance.bankAmount = this.bankAmount;
     dialogRef.componentInstance.busterBetAmount = this.busterBetAmount;
     dialogRef.componentInstance.fortuneBetAmount = this.fortuneBetAmount;
     dialogRef.componentInstance.aupairBetAmount = this.aupairBetAmount;

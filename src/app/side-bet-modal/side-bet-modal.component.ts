@@ -7,9 +7,11 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./side-bet-modal.component.css']
 })
 export class SideBetModalComponent implements OnInit {
+  bankAmount: number = 0;
   busterBetAmount: number = 0;
   fortuneBetAmount: number = 0;
   aupairBetAmount: number = 0;
+  sideBets: any = {};
 
   constructor(public dialogRef: MatDialogRef<SideBetModalComponent>) { }
 
@@ -19,12 +21,15 @@ export class SideBetModalComponent implements OnInit {
   addSideBets() {
     if (this.busterBetAmount == 0 && this.fortuneBetAmount == 0 && this.aupairBetAmount == 0)
       alert("Please place a side bet!");
+    else if (this.busterBetAmount + this.fortuneBetAmount + this.aupairBetAmount >= this.bankAmount)
+      alert("You don't have enough money!");
     else {
       let sideBets = {
         busterBetAmount: this.busterBetAmount,
         fortuneBetAmount: this.fortuneBetAmount,
         aupairBetAmount: this.aupairBetAmount
       }
+      this.sideBets = sideBets;
       this.dialogRef.close({ event: 'close', data: sideBets });
     }
   }
@@ -32,7 +37,12 @@ export class SideBetModalComponent implements OnInit {
   // If the user clicks the cancel button a.k.a. the go back button, then\
   // just close the modal
   closeModal() {
-    this.dialogRef.close();
+    let sideBets = {
+      busterBetAmount: 0,//this.busterBetAmount,
+      fortuneBetAmount: 0,//this.fortuneBetAmount,
+      aupairBetAmount: 0//this.aupairBetAmount
+    }
+    this.dialogRef.close({ event: 'close', data: sideBets });
   }
 
 }
