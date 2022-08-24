@@ -103,5 +103,8 @@
       }
     }
   },
-  "defaultProject": "black-jack-app"
+  "defaultProject": "black-jack-app",
+  "cli": {
+    "analytics": false
+  }
 }
