@@ -24,7 +24,7 @@ export class SideBetModalComponent implements OnInit {
   addSideBets() {
     if (this.busterBetAmount == 0 && this.fortuneBetAmount == 0 && this.aupairBetAmount == 0)
       alert("Please place a side bet!");
-    else if (this.busterBetAmount + this.fortuneBetAmount + this.aupairBetAmount >= this.bankAmount)
+    else if (this.busterBetAmount + this.fortuneBetAmount + this.aupairBetAmount > this.bankAmount)
       alert("You don't have enough money!");
     else {
       let sideBets = {

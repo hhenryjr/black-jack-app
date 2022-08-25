@@ -446,6 +446,9 @@ export class AppComponent {
       this.fortuneBetAmount = 0;
       this.numberOfSideBets = 0;
     }, 500);
+    setTimeout(() => {
+      if (this.bankAmount == 0) alert("You are out of money! Refresh to reup!");
+    }, 1000);
   }
 
   drawCard() {
