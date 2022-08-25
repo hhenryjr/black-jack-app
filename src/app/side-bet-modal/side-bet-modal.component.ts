@@ -12,8 +12,11 @@ export class SideBetModalComponent implements OnInit {
   fortuneBetAmount: number = 0;
   aupairBetAmount: number = 0;
   sideBets: any = {};
+  timeoutHandler: any;
 
-  constructor(public dialogRef: MatDialogRef<SideBetModalComponent>) { }
+  constructor(public dialogRef: MatDialogRef<SideBetModalComponent>) {
+    this.busterBetAmount = -1;
+  }
 
   ngOnInit(): void {
   }
@@ -32,6 +35,32 @@ export class SideBetModalComponent implements OnInit {
       this.sideBets = sideBets;
       this.dialogRef.close({ event: 'close', data: sideBets });
     }
+  }
+
+  setBusterBet(amount: number) {
+    this.busterBetAmount += amount;
+  }
+
+  setFortuneBet(amount: number) {
+    this.fortuneBetAmount += amount;
+  }
+
+  setAuPairBet(amount: number) {
+    this.aupairBetAmount += amount;
+  }
+
+  mouseup() {
+    if (this.timeoutHandler) {
+      clearInterval(this.timeoutHandler);
+      this.busterBetAmount = 0;
+      this.timeoutHandler = null;
+    }
+  }
+
+  mousedown() {
+    this.timeoutHandler = setInterval(() => {
+      this.busterBetAmount += 1;
+    }, 100);
   }
 
   // If the user clicks the cancel button a.k.a. the go back button, then\
