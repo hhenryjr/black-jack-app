@@ -15,6 +15,7 @@ import { SideBetModalComponent } from './side-bet-modal/side-bet-modal.component
   // styleUrls: ['./app.component2.css']
 })
 export class AppComponent {
+  showIntro: boolean = true;
   playerCard: ICard = new Card();
   dealerHand: Hand = new Hand();
   playerHands: Hand[] = [new Hand()];
@@ -58,6 +59,7 @@ export class AppComponent {
   }
 
   addMoney(amount: number) {
+    this.showIntro = false;
     if (amount == 500) {
       if (this.betAmount > 0) this.bankAmount += this.betAmount;
       if (this.bankAmount >= amount) {
