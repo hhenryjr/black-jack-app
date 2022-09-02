@@ -158,7 +158,7 @@ export class AppComponent {
         this.showStandButton = false;
         this.showSurrenderButton = false;
         alert("BLACKJACK! Dealer wins!");
-        if (this.isInsured) this.bankAmount += (this.insuranceAmount * 2);
+        if (this.isInsured) this.bankAmount += (this.insuranceAmount * 3);
         this.playerHands[this.handCounter].betAmount = 0;
         if (!this.isInsured) this.playerLosses++;
 
